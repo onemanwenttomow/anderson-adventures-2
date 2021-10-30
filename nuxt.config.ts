@@ -1,0 +1,10 @@
+import { defineNuxtConfig } from 'nuxt3'
+
+export default defineNuxtConfig({
+  buildModules: ["@nuxtjs/eslint-module", "nuxt-windicss"],
+  //'@pinia/nuxt'
+  publicRuntimeConfig: {
+    supabaseUrl: process.env.SUPABASE_URL,
+    supabaseKey: process.env.SUPABASE_KEY
+  }
+});
