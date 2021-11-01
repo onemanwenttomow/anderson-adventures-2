@@ -41,7 +41,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   async function handleAddUser(name: string, session: Session) {
     console.log("session in handleAddUser: ", session);
-    const user_id = session?.user?.id;
+      const user_id = session?.user?.id;
+      console.log('user_id: ',user_id);
     try {
       const { data, error } = await supabase.from("users").insert([{ name, user_id }]);
       console.log("data, error: ", data, error);
