@@ -39,10 +39,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   }
 
-  async function handleAddUser(name: string, session: Session) {
-    console.log("session in handleAddUser: ", session);
-      const user_id = session?.user?.id;
-      console.log('user_id: ',user_id);
+  async function handleAddUser(name: String) {
+    const session = supabase.auth.session();
+    console.log("session: ", session);
+    const user_id = session?.user?.id;
+    console.log("user_id: ", user_id);
     try {
       const { data, error } = await supabase.from("users").insert([{ name, user_id }]);
       console.log("data, error: ", data, error);
@@ -51,7 +52,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   }
 
-  async function getAllUsers(session: Session) {
+  async function getAllUsers() {
+    const session = supabase.auth.session();
+    console.log("session: ", session);
     const user_id = session?.user?.id;
     try {
       const { data, error } = await supabase.from("users").select().eq("user_id", user_id);

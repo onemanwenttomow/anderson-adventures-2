@@ -1,21 +1,23 @@
 <script setup lang="ts">
 const { $supabase } = useNuxtApp();
-const { supabase, handleLogout, handleAddUser, getAllUsers } = $supabase;
-const session = supabase.auth.session();
+const { handleLogout, handleAddUser, getAllUsers } = $supabase;
 const showDialog = ref(false);
 const users = ref([] as User[]);
-const response = await getAllUsers(session);
-users.value = response;
+
+onMounted(async () => {
+  const response = await getAllUsers();
+  users.value = response;
+});
 
 function addUser(name) {
   showDialog.value = false;
-  handleAddUser(name, session);
+  handleAddUser(name);
   users.value.push({ name });
 }
 </script>
 
 <template>
-  <div class="relative">
+  <div v-if="users.length" class="relative">
     <h1 class="text-6xl text-white p-6" @click="handleLogout">Whose Playing?</h1>
     <div class="flex justify-center">
       <div v-for="user in users" :key="user.name">
