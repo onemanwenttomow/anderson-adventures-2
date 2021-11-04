@@ -18,6 +18,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     getAllUsers
   });
 
+  supabase.auth.onAuthStateChange((event, session: Session) => {
+    if (session) {
+      nuxtApp.$router.push("/");
+    }
+  });
+
   async function handleOAuthLogin(provider: Provider) {
     const { error } = await supabase.auth.signIn({ provider });
     if (error) console.error("Error: ", error.message);
@@ -56,6 +62,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     const session = supabase.auth.session();
     console.log("session: ", session);
     const user_id = session?.user?.id;
+    if (!user_id) {
+      console.log("redirecting...", nuxtApp);
+      nuxtApp.$router.push("/login");
+    }
     try {
       const { data, error } = await supabase.from("users").select().eq("user_id", user_id);
       console.log("data, error: ", data, error);
