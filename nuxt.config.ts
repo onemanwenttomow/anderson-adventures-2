@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from 'nuxt3'
+import { defineNuxtConfig } from "nuxt3";
 
 export default defineNuxtConfig({
   buildModules: ["@nuxtjs/eslint-module", "nuxt-windicss"],

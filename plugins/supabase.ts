@@ -21,6 +21,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   supabase.auth.onAuthStateChange((event, session: Session) => {
     if (session) {
       nuxtApp.$router.push("/");
+    } else {
+      nuxtApp.$router.push("/login");
     }
   });
 

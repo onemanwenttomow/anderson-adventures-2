@@ -3,7 +3,7 @@ const { $supabase } = useNuxtApp();
 const { handleLogout, handleAddUser, getAllUsers } = $supabase;
 const showDialog = ref(false);
 const users = ref([] as User[]);
-
+// add loading state
 onMounted(async () => {
   const response = await getAllUsers();
   users.value = response;
@@ -17,7 +17,7 @@ function addUser(name) {
 </script>
 
 <template>
-  <div v-if="users.length" class="relative">
+  <div class="relative">
     <h1 class="text-6xl text-white p-6" @click="handleLogout">Whose Playing?</h1>
     <div class="flex justify-center">
       <div v-for="user in users" :key="user.name">
