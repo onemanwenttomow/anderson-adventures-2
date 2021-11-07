@@ -1,4 +1,10 @@
-// make user icon a random color
+<script setup lang="ts">
+const { iconColor, newColor } = useIconColor();
+const props = defineProps({
+  pete: String
+});
+console.log("props: ", props);
+</script>
 
 <template>
   <div
@@ -6,8 +12,6 @@
       h-20
       w-20
       bg-gradient-to-tl
-      from-green-400
-      to-blue-500
       m-1
       mr-4
       rounded
@@ -15,7 +19,10 @@
       border-2 border-transparent
       cursor-pointer
       relative
-      hover:border-pink-600
     "
-  ></div>
+    :class="iconColor"
+    @click="newColor"
+  >
+    <p>{{ pete }}</p>
+  </div>
 </template>

@@ -49,12 +49,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   async function handleAddUser(name: String) {
     const session = supabase.auth.session();
-    console.log("session: ", session);
     const user_id = session?.user?.id;
-    console.log("user_id: ", user_id);
     try {
       const { data, error } = await supabase.from("users").insert([{ name, user_id }]);
-      console.log("data, error: ", data, error);
     } catch (error) {
       console.error("handleAddUser error: ", error);
     }
@@ -62,15 +59,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   async function getAllUsers() {
     const session = supabase.auth.session();
-    console.log("session: ", session);
     const user_id = session?.user?.id;
     if (!user_id) {
-      console.log("redirecting...", nuxtApp);
       nuxtApp.$router.push("/login");
     }
     try {
       const { data, error } = await supabase.from("users").select().eq("user_id", user_id);
-      console.log("data, error: ", data, error);
       return data;
     } catch (error) {
       console.error(error);
