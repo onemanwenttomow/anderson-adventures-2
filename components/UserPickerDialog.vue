@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { iconColor, newColor } = useIconColor();
 const userName = ref("");
 const inputField = ref(null);
 const emit = defineEmits(["save", "cancel"]);
@@ -9,7 +10,8 @@ onMounted(async () => {
 
 function handleContinue() {
   if (userName.value) {
-    emit("save", userName.value);
+    console.log("iconColor: ", iconColor);
+    emit("save", { name: userName.value, iconColor });
   }
 }
 </script>
@@ -22,7 +24,7 @@ function handleContinue() {
         Create your profile to play Anderson Adventures.
       </h2>
       <div class="flex justify-between items-center border-b-2 pb-4 border-gray-500">
-        <AppUserIcon pete="test" />
+        <AppUserIcon :iconColor="iconColor" :newColor="newColor" />
         <input
           ref="inputField"
           class="bg-gray-400 h-8 text-white placeholder-current px-2 ml-4 flex-grow"

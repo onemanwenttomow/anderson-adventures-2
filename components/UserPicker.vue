@@ -11,10 +11,11 @@ onMounted(async () => {
   loading.value = false;
 });
 
-function addUser(name) {
+function addUser({ name, iconColor }) {
+  console.log("iconColor in UserPicker: ", iconColor);
   showDialog.value = false;
-  handleAddUser(name);
-  users.value.push({ name });
+  handleAddUser(name, iconColor);
+  users.value.push({ name, color: iconColor });
 }
 </script>
 
@@ -29,7 +30,7 @@ function addUser(name) {
     </div>
     <div v-else class="flex justify-center">
       <div v-for="user in users" :key="user.name">
-        <AppUserIcon :pete="users" another="test" />
+        <AppUserIcon :iconColor="user.color" />
         <div class="text-gray-500 text-lg text-center">{{ user.name }}</div>
       </div>
       <div @click="showDialog = true">

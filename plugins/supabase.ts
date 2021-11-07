@@ -47,11 +47,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   }
 
-  async function handleAddUser(name: String) {
+  async function handleAddUser(name: String, userIcon) {
     const session = supabase.auth.session();
     const user_id = session?.user?.id;
     try {
-      const { data, error } = await supabase.from("users").insert([{ name, user_id }]);
+      const { data, error } = await supabase
+        .from("users")
+        .insert([{ name, user_id, color: userIcon.value }]);
     } catch (error) {
       console.error("handleAddUser error: ", error);
     }

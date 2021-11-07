@@ -1,7 +1,10 @@
 <script setup lang="ts">
-const { iconColor, newColor } = useIconColor();
 const props = defineProps({
-  pete: String
+  iconColor: String,
+  newColor: {
+    required: false,
+    type: Function
+  }
 });
 console.log("props: ", props);
 </script>
@@ -21,8 +24,6 @@ console.log("props: ", props);
       relative
     "
     :class="iconColor"
-    @click="newColor"
-  >
-    <p>{{ pete }}</p>
-  </div>
+    @click="() => newColor"
+  ></div>
 </template>

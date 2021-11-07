@@ -1,5 +1,6 @@
 declare interface User {
   name: string;
+  color: string;
 }
 
 declare interface Credentials {

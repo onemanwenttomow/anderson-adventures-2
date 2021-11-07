@@ -9,6 +9,7 @@ export function useIconColor() {
   let iconColor = ref(colorsArray.value[randomColorIndex]);
 
   function newColor() {
+    console.log("running newColor");
     const filteredColors = colorsArray.value.filter((colors) => colors !== iconColor.value);
     const randomColorIndex = Math.floor(Math.random() * filteredColors.length);
     iconColor.value = filteredColors[randomColorIndex];
