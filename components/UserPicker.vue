@@ -5,10 +5,13 @@ const showDialog = ref(false);
 const loading = ref(true);
 const users = ref([] as User[]);
 
-onMounted(async () => {
-  const response = await getAllUsers();
-  users.value = response;
-  loading.value = false;
+onMounted(() => {
+  // need to add a delay otherwise session is null
+  setTimeout(async () => {
+    const response = await getAllUsers();
+    users.value = response;
+    loading.value = false;
+  }, 900);
 });
 
 function addUser({ name, iconColor }) {
@@ -21,42 +24,44 @@ function addUser({ name, iconColor }) {
 
 <template>
   <div class="relative">
-    <h1 class="text-6xl text-white p-6" @click="handleLogout">Whose Playing?</h1>
     <div
       v-if="loading"
       class="flex justify-center items-center text-gray-500 text-lg text-center h-30"
     >
       Loading...
     </div>
-    <div v-else class="flex justify-center">
-      <div v-for="user in users" :key="user.name">
-        <AppUserIcon :iconColor="user.color" />
-        <div class="text-gray-500 text-lg text-center">{{ user.name }}</div>
-      </div>
-      <div @click="showDialog = true">
-        <div
-          class="
-            h-20
-            w-20
-            m-1
-            rounded
-            hover:bg-white
-            text-gray-500
-            flex
-            justify-center
-            items-center
-            text-6xl
-            font-bold
-            cursor-pointer
-          "
-        >
-          <div class="-mt-4">+</div>
+    <div v-else>
+      <h1 class="text-6xl text-white p-6" @click="handleLogout">Whose Playing?</h1>
+      <div class="flex justify-center">
+        <div v-for="user in users" :key="user.name">
+          <AppUserIcon :iconColor="user.color" />
+          <div class="text-gray-500 text-lg text-center">{{ user.name }}</div>
         </div>
-        <div class="text-gray-500 text-lg text-center">Add Player</div>
+        <div @click="showDialog = true">
+          <div
+            class="
+              h-20
+              w-20
+              m-1
+              rounded
+              hover:bg-white
+              text-gray-500
+              flex
+              justify-center
+              items-center
+              text-6xl
+              font-bold
+              cursor-pointer
+            "
+          >
+            <div class="-mt-4">+</div>
+          </div>
+          <div class="text-gray-500 text-lg text-center">Add Player</div>
+        </div>
+        <transition name="bounce">
+          <UserPickerDialog v-if="showDialog" @cancel="showDialog = !showDialog" @save="addUser" />
+        </transition>
       </div>
-      <transition name="bounce">
-        <UserPickerDialog v-if="showDialog" @cancel="showDialog = !showDialog" @save="addUser" />
-      </transition>
     </div>
   </div>
 </template>

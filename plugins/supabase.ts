@@ -4,7 +4,7 @@ import { Session } from "@supabase/gotrue-js/dist/main/lib/types";
 
 import { defineNuxtPlugin } from "#app";
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(async (nuxtApp) => {
   const supabase = createClient(
     // @ts-ignore
     nuxtApp.payload.config.supabaseUrl,
@@ -18,7 +18,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     getAllUsers
   });
 
+  // const session = await supabase.auth.session();
+  // if (!session) {
+  //   nuxtApp.$router.push("/login");
+  // } else {
+  //   nuxtApp.$router.push("/");
+  // }
+
   supabase.auth.onAuthStateChange((event, session: Session) => {
+    console.log("session onAuthStateChange: ", session);
     if (session) {
       nuxtApp.$router.push("/");
     } else {
@@ -40,6 +48,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         console.error("Error", error);
         return;
       }
+      console.log("about to reload");
       window.location.reload();
     } catch (err) {
       alert("Unknown error signing out");
@@ -63,6 +72,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const session = supabase.auth.session();
     const user_id = session?.user?.id;
     if (!user_id) {
+      console.log("redirecing to login");
       nuxtApp.$router.push("/login");
     }
     try {
