@@ -17,7 +17,7 @@ router.beforeEach((to, from) => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-gray-900 flex justify-center items-center">
+  <main class="h-full bg-gray-900 flex justify-center items-center">
     <UserPicker />
   </main>
 </template>

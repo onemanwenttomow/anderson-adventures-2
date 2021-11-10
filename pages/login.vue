@@ -14,10 +14,12 @@ router.beforeEach((to, from) => {
   // if ($supabase.supabase.auth.session()) {
   //   // router.push("/");
 });
+
+// need a proper 100% mobile view height
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-900 flex justify-center items-center">
+  <div class="h-full bg-gray-900 flex justify-center items-center">
     <h1 class="text-6xl text-white p-6 cursor-pointer" @click="handleOAuthLogin('google')">
       Login
     </h1>
