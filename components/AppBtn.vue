@@ -2,7 +2,8 @@
 // You can control whether disabled variants are enabled for a plugin in the variants section of your tailwind.config.js file:
 const props = defineProps({
   type: String,
-  disabled: Boolean
+  disabled: Boolean,
+  full: Boolean
 });
 
 const base = [
@@ -12,6 +13,8 @@ const btnClasses = {
   primary: ["bg-green-600 border-green-600"],
   secondary: ["bg-transparent text-gray-500 border-gray-500 hover:text-white hover:border-white"]
 };
+
+console.log('type: ',props);
 </script>
 
 <template>
