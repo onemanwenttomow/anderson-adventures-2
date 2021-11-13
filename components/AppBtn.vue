@@ -7,14 +7,14 @@ const props = defineProps({
 });
 
 const base = [
-  "mr-4 py-1 px-6 tracking-widest border-2 disabled:bg-white disabled:border-white disabled:text-gray-500 "
+  `mr-4 py-4 sm:py-1 px-6 tracking-widest border-2 disabled:bg-white disabled:border-white disabled:text-gray-500 ${
+    props.full ? "w-full sm:w-auto" : ""
+  }`
 ];
 const btnClasses = {
   primary: ["bg-green-600 border-green-600"],
   secondary: ["bg-transparent text-gray-500 border-gray-500 hover:text-white hover:border-white"]
 };
-
-console.log('type: ',props);
 </script>
 
 <template>

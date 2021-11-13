@@ -6,7 +6,13 @@ const props = defineProps({
     type: Function
   }
 });
-console.log("props: ", props);
+
+function changeColor() {
+  if (!props.newColor) {
+    return;
+  }
+  props.newColor();
+}
 </script>
 
 <template>
@@ -24,6 +30,6 @@ console.log("props: ", props);
       relative
     "
     :class="iconColor"
-    @click="() => newColor"
+    @click="changeColor"
   ></div>
 </template>
