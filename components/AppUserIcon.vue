@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { character } = usePlayerCharacter();
 const props = defineProps({
   iconColor: String,
   newColor: {
@@ -26,8 +27,13 @@ function changeColor() {
       border-2 border-transparent
       cursor-pointer
       relative
+      flex
+      justify-center
+      items-center
     "
     :class="iconColor"
     @click="changeColor"
-  ></div>
+  >
+    <img :src="character" alt="character" class="w-3/4" />
+  </div>
 </template>
