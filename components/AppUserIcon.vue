@@ -21,8 +21,6 @@ function changeColor() {
       h-20
       w-20
       bg-gradient-to-tl
-      m-1
-      mr-4
       rounded
       outline-none
       border-2 border-transparent
