@@ -1,11 +1,15 @@
 <script setup lang="ts">
-const { character } = usePlayerCharacter();
 const props = defineProps({
   iconColor: String,
+  character: String,
   newColor: {
     required: false,
-    type: Function
-  }
+    type: Function,
+  },
+  newCharacter: {
+    required: false,
+    type: Function,
+  },
 });
 
 function changeColor() {
@@ -13,6 +17,13 @@ function changeColor() {
     return;
   }
   props.newColor();
+}
+
+function changeCharacter() {
+  if (!props.newCharacter) {
+    return;
+  }
+  props.newCharacter();
 }
 </script>
 
@@ -34,6 +45,6 @@ function changeColor() {
     :class="iconColor"
     @click="changeColor"
   >
-    <img :src="character" alt="character" class="w-3/4" />
+    <img :src="character" alt="character" class="w-3/4 select-none" @click.stop="changeCharacter" />
   </div>
 </template>

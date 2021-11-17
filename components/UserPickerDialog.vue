@@ -1,12 +1,15 @@
 <script setup lang="ts">
 const { iconColor, newColor } = useIconColor();
-const userName = ref("");
-const emit = defineEmits(["save", "cancel"]);
+const { character, newCharacter } = usePlayerCharacter();
+
+const userName = ref('');
+const emit = defineEmits(['save', 'cancel']);
 
 function handleContinue() {
   if (userName.value) {
-    console.log("iconColor: ", iconColor);
-    emit("save", { name: userName.value, iconColor });
+    console.log('iconColor: ', iconColor);
+    console.log('character: ', character);
+    emit('save', { name: userName.value, iconColor, character });
   }
 }
 </script>
@@ -21,7 +24,12 @@ function handleContinue() {
         Create your profile to play Anderson Adventures.
       </h2>
       <div class="flex justify-between items-center border-b-2 pb-4 border-gray-500">
-        <AppUserIcon :iconColor="iconColor" :newColor="newColor" />
+        <AppUserIcon
+          :iconColor="iconColor"
+          :newColor="newColor"
+          :character="character"
+          :newCharacter="newCharacter"
+        />
         <input
           class="bg-gray-400 h-8 text-white placeholder-current px-2 ml-4 flex-grow"
           placeholder="Name"
