@@ -5,13 +5,15 @@ export function useIconColor() {
     'from-green-400 to-blue-500 hover:border-orange-600',
   ]);
 
-  const randomColorIndex = Math.floor(Math.random() * colorsArray.value.length);
+  let randomColorIndex = Math.floor(Math.random() * colorsArray.value.length);
   let iconColor = ref(colorsArray.value[randomColorIndex]);
 
   function newColor() {
-    const filteredColors = colorsArray.value.filter((colors) => colors !== iconColor.value);
-    const randomColorIndex = Math.floor(Math.random() * filteredColors.length);
-    iconColor.value = filteredColors[randomColorIndex];
+    randomColorIndex++;
+    if (randomColorIndex >= colorsArray.value.length) {
+      randomColorIndex = 0;
+    }
+    iconColor.value = colorsArray.value[randomColorIndex];
   }
 
   return {

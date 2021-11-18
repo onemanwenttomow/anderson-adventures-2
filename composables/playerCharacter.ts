@@ -10,15 +10,15 @@ export function usePlayerCharacter() {
     '/player/45_minion_01_xxx.png',
   ]);
 
-  const randomColorIndex = Math.floor(Math.random() * charactersArray.value.length);
-  let character = ref(charactersArray.value[randomColorIndex]);
+  let randomIndex = Math.floor(Math.random() * charactersArray.value.length);
+  let character = ref(charactersArray.value[randomIndex]);
 
   function newCharacter() {
-    const filteredCharacters = charactersArray.value.filter(
-      (characters) => characters !== character.value,
-    );
-    const randomCharacterIndex = Math.floor(Math.random() * filteredCharacters.length);
-    character.value = filteredCharacters[randomCharacterIndex];
+    randomIndex++;
+    if (randomIndex >= charactersArray.value.length) {
+      randomIndex = 0;
+    }
+    character.value = charactersArray.value[randomIndex];
   }
 
   return {

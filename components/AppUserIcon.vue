@@ -41,6 +41,7 @@ function changeCharacter() {
       flex
       justify-center
       items-center
+      select-none
     "
     :class="iconColor"
     @click="changeColor"
