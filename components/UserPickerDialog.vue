@@ -38,7 +38,9 @@ function handleContinue() {
         />
       </div>
       <div class="mt-4">
-        <AppBtn type="primary" :disabled="!userName" @clicked="handleContinue"> Continue </AppBtn>
+        <AppBtn type="primary" :disabled="!userName" @clicked="handleContinue" class="mr-4">
+          Continue
+        </AppBtn>
         <AppBtn type="secondary" @clicked="$emit('cancel')">Cancel</AppBtn>
       </div>
     </div>

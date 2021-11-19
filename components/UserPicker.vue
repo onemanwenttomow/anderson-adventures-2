@@ -7,6 +7,7 @@ const users = ref([] as User[]);
 
 onMounted(() => {
   // need to add a delay otherwise session is null
+  // maybe check the route and see if it has been redirected from supabase..
   setTimeout(async () => {
     const response = await getAllUsers();
     users.value = response;
@@ -15,7 +16,6 @@ onMounted(() => {
 });
 
 function addUser({ name, iconColor, character }) {
-  console.log('iconColor in UserPicker: ', iconColor);
   showDialog.value = false;
   handleAddUser(name, iconColor, character);
   users.value.push({ name, color: iconColor, character });

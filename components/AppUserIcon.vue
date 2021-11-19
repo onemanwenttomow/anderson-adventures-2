@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useStore } from '~/stores/options';
+const { vibration } = useStore();
 const props = defineProps({
   iconColor: String,
   character: String,
@@ -20,6 +22,7 @@ function changeColor() {
 }
 
 function changeCharacter() {
+  vibration && window.navigator.vibrate(100);
   if (!props.newCharacter) {
     return;
   }

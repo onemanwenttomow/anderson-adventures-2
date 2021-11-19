@@ -8,7 +8,7 @@ const loading = ref(false);
 
 function signIn() {
   loading.value = true;
-  vibration && window.navigator.vibrate(200);
+  vibration && window.navigator.vibrate(100);
   handleOAuthLogin('google');
 }
 </script>
