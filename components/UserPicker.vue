@@ -1,16 +1,13 @@
 <script setup lang="ts">
 const { $supabase } = useNuxtApp();
-const { handleLogout, handleAddUser, getAllUsers } = $supabase;
+const { handleAddUser, getAllUsers } = $supabase;
 const showDialog = ref(false);
 const loading = ref(true);
 const users = ref([] as User[]);
 
 onMounted(() => {
-  // need to add a delay otherwise session is null
-  // maybe check the route and see if it has been redirected from supabase..
   setTimeout(async () => {
-    const response = await getAllUsers();
-    users.value = response;
+    users.value = await getAllUsers();
     loading.value = false;
   }, 900);
 });
@@ -26,7 +23,7 @@ function addUser({ name, iconColor, character }) {
   <div class="relative">
     <AppLoading v-if="loading" />
     <div v-else>
-      <h1 class="text-4xl md:text-6xl text-white px-6" @click="handleLogout">Whose Playing?</h1>
+      <h1 class="text-4xl md:text-6xl text-white px-6">Whose Playing?</h1>
       <div class="flex flex-wrap p-6">
         <div v-for="user in users" :key="user.name" class="p-1 pr-4">
           <AppUserIcon :iconColor="user.color" :character="user.character" />
@@ -51,7 +48,7 @@ function addUser({ name, iconColor, character }) {
           >
             <div class="-mt-4">+</div>
           </div>
-          <div class="text-gray-500 text-lg text-center">Add Player</div>
+          <div class="text-gray-500 text-lg text-center w-20 leading-none">Add Adventurer</div>
         </div>
         <transition name="bounce">
           <UserPickerDialog v-if="showDialog" @cancel="showDialog = !showDialog" @save="addUser" />

@@ -7,7 +7,7 @@ const props = defineProps({
 });
 
 const base = [
-  `py-4 sm:py-1 px-6 tracking-widest border-2 disabled:bg-white disabled:border-white disabled:text-gray-500 ${
+  `py-2 sm:py-1 px-6 tracking-widest border-2 disabled:bg-white disabled:border-white disabled:text-gray-500 ${
     props.full ? 'w-full sm:w-auto' : ''
   }`,
 ];

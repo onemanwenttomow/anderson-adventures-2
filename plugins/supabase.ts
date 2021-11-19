@@ -26,12 +26,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   // }
 
   supabase.auth.onAuthStateChange((event, session: Session) => {
-    console.log('session onAuthStateChange: ', session);
-    if (session) {
-      nuxtApp.$router.push('/');
-    } else {
-      nuxtApp.$router.push('/login');
-    }
+    console.log('session onAuthStateChange: ', session, event);
+    // if (session) {
+    //   nuxtApp.$router.push('/');
+    // } else {
+    //   nuxtApp.$router.push('/login');
+    // }
   });
 
   async function handleOAuthLogin(provider: Provider) {
@@ -49,7 +49,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         return;
       }
       console.log('about to reload');
-      window.location.reload();
+      window.location.replace('/login');
     } catch (err) {
       alert('Unknown error signing out');
       console.error('Error', err);
