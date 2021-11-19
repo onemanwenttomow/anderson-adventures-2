@@ -24,12 +24,7 @@ function addUser({ name, iconColor, character }) {
 
 <template>
   <div class="relative">
-    <div
-      v-if="loading"
-      class="flex justify-center items-center text-gray-500 text-lg text-center h-30"
-    >
-      Loading...
-    </div>
+    <AppLoading v-if="loading" />
     <div v-else>
       <h1 class="text-4xl md:text-6xl text-white px-6" @click="handleLogout">Whose Playing?</h1>
       <div class="flex flex-wrap p-6">
