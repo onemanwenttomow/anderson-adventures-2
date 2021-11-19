@@ -14,13 +14,13 @@ function signIn() {
 </script>
 
 <template>
-  <div class="h-full bg-gray-900 flex flex-col justify-center md:items-center p-6">
-    <AppLoading v-if="loading" />
-    <template v-else>
-      <h1 class="text-4xl md:text-6xl mb-8 text-white cursor-pointer">Sign In</h1>
-      <div class="text-white">
-        <AppBtn type="primary" full @click="signIn">Sign in with Google</AppBtn>
-      </div>
-    </template>
+  <div v-if="loading" class="h-full bg-gray-900 flex flex-col justify-center items-center p-6">
+    <AppLoading />
+  </div>
+  <div v-else class="h-full bg-gray-900 flex flex-col justify-center md:items-center p-6">
+    <h1 class="text-4xl md:text-6xl mb-8 text-white cursor-pointer">Sign In</h1>
+    <div class="text-white">
+      <AppBtn type="primary" full @click="signIn">Sign in with Google</AppBtn>
+    </div>
   </div>
 </template>
