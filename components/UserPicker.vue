@@ -26,8 +26,10 @@ function addUser({ name, iconColor, character }) {
       <h1 class="text-4xl md:text-6xl text-white px-6">Whose Playing?</h1>
       <div class="flex flex-wrap p-6">
         <div v-for="user in users" :key="user.name" class="p-1 pr-4">
-          <AppUserIcon :iconColor="user.color" :character="user.character" />
-          <div class="text-gray-500 text-lg text-center">{{ user.name }}</div>
+          <nuxt-link to="/games">
+            <AppUserIcon :iconColor="user.color" :character="user.character" />
+            <div class="text-gray-500 text-lg text-center">{{ user.name }}</div>
+          </nuxt-link>
         </div>
         <div @click="showDialog = true">
           <div

@@ -4,11 +4,14 @@ const props = defineProps({
   src: String,
   size: Number,
 });
+const emit = defineEmits(['imgloaded']);
+
 onMounted(() => {
   const ctx = canvas.value.getContext('2d');
   const image = new Image();
   image.onload = function () {
     ctx.drawImage(image, 0, 0);
+    emit('imgloaded');
   };
   image.src = props.src;
 });
