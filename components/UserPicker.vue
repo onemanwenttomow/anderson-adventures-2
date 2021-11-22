@@ -30,7 +30,8 @@ function addUser({ name, iconColor, character }) {
   users.value.push({ name, color: iconColor, character });
 }
 
-function startGame() {
+function startGame(user) {
+  store.playerSelected = user;
   router.push('/games');
 }
 </script>
@@ -42,7 +43,7 @@ function startGame() {
       <h1 class="text-4xl md:text-6xl text-white px-6">Whose Playing?</h1>
       <div class="flex flex-wrap p-6">
         <div v-for="user in users" :key="user.name" class="p-1 pr-4">
-          <div @click="startGame">
+          <div @click="startGame(user)">
             <div class="hover-container">
               <AppUserIcon
                 :iconColor="user.color"

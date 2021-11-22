@@ -3,8 +3,9 @@ import { defineStore } from 'pinia';
 export const useStore = defineStore('players', {
   state: () => {
     return {
-      players: [],
+      players: [] as Array<User>,
       playersFetched: false,
+      playerSelected: {} as User,
     };
   },
 });
