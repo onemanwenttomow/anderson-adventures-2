@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full bg-repeat" style="background-image: url(/tiles/dark_geometric_@2X.png)">
+  <div class="h-full background">
     <AppHeader />
     <slot />
   </div>
