@@ -1,13 +1,19 @@
 <script setup>
+import { useStore } from '~/stores/options';
 const { $supabase } = useNuxtApp();
 const { handleLogout } = $supabase;
 const route = useRoute();
 const headerReady = ref(false);
+const { vibration } = useStore();
 console.log('route.path: ', route.path);
+function logout() {
+  vibration && window.navigator.vibrate(50);
+  handleLogout();
+}
 </script>
 
 <template>
-  <header class="fixed p-4 w-full bg-gray-900 text-white">
+  <header class="fixed p-4 w-full bg-gray-900 text-white h-18">
     <div v-show="headerReady" class="max-w-screen-lg mx-auto flex justify-between items-center">
       <nuxt-link to="/">
         <div class="flex select-none cursor-pointer">
@@ -15,7 +21,7 @@ console.log('route.path: ', route.path);
           <h1 class="text-4xl">AA</h1>
         </div>
       </nuxt-link>
-      <AppBtn v-if="$route.path !== '/login'" type="primary" class="ml-auto" @click="handleLogout"
+      <AppBtn v-if="$route.path !== '/login'" type="primary" class="ml-auto" @click="logout"
         >Logout</AppBtn
       >
     </div>

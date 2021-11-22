@@ -1,5 +1,5 @@
 <template>
-  <main class="h-full bg-gray-900 flex justify-center items-center">
+  <AppPageWrapper class="flex justify-center items-center">
     <UserPicker />
-  </main>
+  </AppPageWrapper>
 </template>
