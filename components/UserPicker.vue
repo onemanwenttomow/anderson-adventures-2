@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const { $supabase } = useNuxtApp();
+import { useStore } from '~/stores/players';
+const store = useStore();
 const { handleAddUser, getAllUsers } = $supabase;
 const router = useRouter();
 const showDialog = ref(false);
@@ -7,8 +9,17 @@ const loading = ref(true);
 const users = ref([] as User[]);
 
 onMounted(() => {
+  if (store.playersFetched) {
+    users.value = store.players;
+    loading.value = false;
+    return;
+  }
+
   setTimeout(async () => {
-    users.value = await getAllUsers();
+    const fetchedUsers = await getAllUsers();
+    store.players = fetchedUsers;
+    store.playersFetched = true;
+    users.value = fetchedUsers;
     loading.value = false;
   }, 900);
 });
@@ -20,7 +31,6 @@ function addUser({ name, iconColor, character }) {
 }
 
 function startGame() {
-  // work on the page transition
   router.push('/games');
 }
 </script>

@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     supabaseKey: process.env.SUPABASE_KEY,
   },
   meta: {
-    link: [{ rel: 'stylesheet', href: '/css/transitions.css' }],
+    link: [
+      { rel: 'stylesheet', href: '/css/base.css' },
+      { rel: 'stylesheet', href: '/css/transitions.css' },
+    ],
   },
 });

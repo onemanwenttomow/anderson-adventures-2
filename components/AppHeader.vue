@@ -13,7 +13,7 @@ function logout() {
 </script>
 
 <template>
-  <header class="fixed p-4 w-full bg-gray-900 text-white h-18">
+  <header class="fixed p-4 w-full bg-gray-900 text-white h-18 z-50">
     <div v-show="headerReady" class="max-w-screen-lg mx-auto flex justify-between items-center">
       <nuxt-link to="/">
         <div class="flex select-none cursor-pointer">
