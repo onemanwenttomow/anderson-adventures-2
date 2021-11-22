@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas ref="canvas" width="16" height="16"></canvas>
+  <canvas v-once ref="canvas" width="16" height="16"></canvas>
 </template>
 
 <style scoped>

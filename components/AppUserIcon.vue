@@ -48,6 +48,6 @@ function changeCharacter() {
     :class="iconColor"
     @click="changeColor"
   >
-    <img :src="character" alt="character" class="w-3/4 select-none" @click.stop="changeCharacter" />
+    <img :src="character" alt="character" class="w-3/4 select-none" @click="changeCharacter" />
   </div>
 </template>

@@ -7,4 +7,7 @@ export default defineNuxtConfig({
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
   },
+  meta: {
+    link: [{ rel: 'stylesheet', href: '/css/transitions.css' }],
+  },
 });
