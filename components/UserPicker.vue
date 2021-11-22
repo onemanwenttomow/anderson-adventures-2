@@ -27,8 +27,16 @@ function addUser({ name, iconColor, character }) {
       <div class="flex flex-wrap p-6">
         <div v-for="user in users" :key="user.name" class="p-1 pr-4">
           <nuxt-link to="/games">
-            <AppUserIcon :iconColor="user.color" :character="user.character" />
-            <div class="text-gray-500 text-lg text-center">{{ user.name }}</div>
+            <div class="hover-container">
+              <AppUserIcon
+                :iconColor="user.color"
+                :character="user.character"
+                class="hover-icon transition duration-300"
+              />
+            </div>
+            <div class="text-gray-500 text-lg text-center">
+              {{ user.name }}
+            </div>
           </nuxt-link>
         </div>
         <div @click="showDialog = true">
@@ -61,6 +69,9 @@ function addUser({ name, iconColor, character }) {
 </template>
 
 <style scoped>
+.hover-container:hover .hover-icon {
+  transform: translateY(-2px);
+}
 .bounce-enter-active {
   animation: bounce-in 0.5s;
 }

@@ -38,7 +38,6 @@ function changeCharacter() {
       bg-gradient-to-tl
       rounded
       outline-none
-      border-2 border-transparent
       cursor-pointer
       relative
       flex
