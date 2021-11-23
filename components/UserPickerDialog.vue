@@ -1,16 +1,23 @@
 <script setup lang="ts">
 const { iconColor, newColor } = useIconColor();
 const { character, newCharacter } = usePlayerCharacter();
+const { $howler } = useNuxtApp();
 
 const userName = ref('');
 const emit = defineEmits(['save', 'cancel']);
 
+// TODO char limit on name of player...
+
 function handleContinue() {
   if (userName.value) {
-    console.log('iconColor: ', iconColor);
-    console.log('character: ', character);
+    $howler.ok.play();
     emit('save', { name: userName.value, iconColor, character });
   }
+}
+
+function cancel() {
+  $howler.cancel.play();
+  emit('cancel');
 }
 </script>
 
@@ -41,7 +48,7 @@ function handleContinue() {
         <AppBtn type="primary" :disabled="!userName" @clicked="handleContinue" class="mr-4">
           Continue
         </AppBtn>
-        <AppBtn type="secondary" @clicked="$emit('cancel')">Cancel</AppBtn>
+        <AppBtn type="secondary" @clicked="cancel">Cancel</AppBtn>
       </div>
     </div>
   </div>

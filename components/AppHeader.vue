@@ -1,13 +1,14 @@
 <script setup>
 import { useStore } from '~/stores/options';
-const { $supabase } = useNuxtApp();
+const { $supabase, $howler } = useNuxtApp();
 const { handleLogout } = $supabase;
 const route = useRoute();
 const headerReady = ref(false);
 const { vibration } = useStore();
 console.log('route.path: ', route.path);
 function logout() {
-  vibration && window.navigator.vibrate(50);
+  $howler.ok.play();
+  vibration && window.navigator.vibrate(10);
   handleLogout();
 }
 </script>

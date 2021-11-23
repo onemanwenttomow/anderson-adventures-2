@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { $supabase } = useNuxtApp();
+const { $supabase, $howler } = useNuxtApp();
 import { useStore } from '~/stores/players';
 const store = useStore();
 const { handleAddUser, getAllUsers } = $supabase;
@@ -8,21 +8,27 @@ const showDialog = ref(false);
 const loading = ref(true);
 const users = ref([] as User[]);
 
-onMounted(() => {
+onMounted(async () => {
   if (store.playersFetched) {
     users.value = store.players;
     loading.value = false;
     return;
   }
+  const session = await $supabase.supabase.auth.session();
+  if (session) {
+    return fetchUsers();
+  }
 
-  setTimeout(async () => {
-    const fetchedUsers = await getAllUsers();
-    store.players = fetchedUsers;
-    store.playersFetched = true;
-    users.value = fetchedUsers;
-    loading.value = false;
-  }, 900);
+  setTimeout(fetchUsers, 900);
 });
+
+async function fetchUsers() {
+  const fetchedUsers = await getAllUsers();
+  store.players = fetchedUsers;
+  store.playersFetched = true;
+  users.value = fetchedUsers;
+  loading.value = false;
+}
 
 function addUser({ name, iconColor, character }) {
   showDialog.value = false;
@@ -31,8 +37,14 @@ function addUser({ name, iconColor, character }) {
 }
 
 function startGame(user) {
+  $howler.ok.play();
   store.playerSelected = user;
   router.push('/games');
+}
+
+function openUserPickerDialog() {
+  $howler.ok.play();
+  showDialog.value = true;
 }
 </script>
 
@@ -56,7 +68,7 @@ function startGame(user) {
             </div>
           </div>
         </div>
-        <div @click="showDialog = true">
+        <div @click="openUserPickerDialog">
           <div
             class="
               h-20
@@ -88,22 +100,5 @@ function startGame(user) {
 <style scoped>
 .hover-container:hover .hover-icon {
   transform: translateY(-2px);
-}
-.bounce-enter-active {
-  animation: bounce-in 0.5s;
-}
-.bounce-leave-active {
-  animation: bounce-in 0.5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 </style>
