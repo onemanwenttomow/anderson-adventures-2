@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { $supabase, $howler } = useNuxtApp();
-import { useStore } from '~/stores/players';
-const store = useStore();
+import { usePlayersStore } from '~/stores/players';
+const store = usePlayersStore();
 const { handleAddUser, getAllUsers } = $supabase;
 const router = useRouter();
 const showDialog = ref(false);

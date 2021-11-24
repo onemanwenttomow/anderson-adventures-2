@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useStore = defineStore('options', {
+export const useOptionsStore = defineStore('options', {
   state: () => ({
     options: {
       vibration: true,

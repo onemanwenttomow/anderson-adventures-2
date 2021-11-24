@@ -1,30 +1,51 @@
-<script setup>
-import { useStore } from '~/stores/options';
+<script setup lang="ts">
+import { useOptionsStore } from '~/stores/options';
+import { usePlayersStore } from '~/stores/players';
+
+const { vibration } = useOptionsStore();
+const store = usePlayersStore();
+
 const { $supabase, $howler } = useNuxtApp();
 const { handleLogout } = $supabase;
 const route = useRoute();
+
 const headerReady = ref(false);
-const { vibration } = useStore();
+const playerSelected = ref<User>(null);
 console.log('route.path: ', route.path);
+
 function logout() {
   $howler.ok.play();
   vibration && window.navigator.vibrate(10);
   handleLogout();
 }
+
+store.$subscribe((store) => {
+  if (store.events.key === 'playerSelected' && store.events.newValue.id) {
+    playerSelected.value = store.events.newValue;
+  }
+});
 </script>
 
 <template>
   <header class="fixed w-full bg-gray-900 text-white h-18 z-50">
-    <div v-show="headerReady" class="p-4 max-w-screen-lg mx-auto flex justify-between items-center">
+    <div v-show="headerReady" class="p-4 max-w-screen-lg mx-auto flex items-center">
       <nuxt-link to="/">
         <div class="flex select-none cursor-pointer">
           <AppPixelCanvas src="/items/Weapon_08.png" :size="2.5" @imgloaded="headerReady = true" />
           <h1 class="text-4xl">AA</h1>
         </div>
       </nuxt-link>
-      <AppBtn v-if="$route.path !== '/login'" type="primary" class="ml-auto" @click="logout"
-        >Logout</AppBtn
-      >
+      <div class="ml-auto flex">
+        <p v-if="playerSelected" class="pr-4">
+          <AppUserIcon
+            :icon-color="playerSelected.color"
+            :character="playerSelected.character"
+            height="h-10"
+            width="w-10"
+          />
+        </p>
+        <AppBtn v-if="$route.path !== '/login'" type="primary" @click="logout">Logout</AppBtn>
+      </div>
     </div>
   </header>
 </template>

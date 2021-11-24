@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useStore } from '~/stores/options';
-const { vibration } = useStore();
+import { useOptionsStore } from '~/stores/options';
+const { vibration } = useOptionsStore();
 const props = defineProps({
   iconColor: String,
   character: String,
@@ -11,6 +11,14 @@ const props = defineProps({
   newCharacter: {
     required: false,
     type: Function,
+  },
+  height: {
+    type: String,
+    default: 'h-20',
+  },
+  width: {
+    type: String,
+    default: 'w-20',
   },
 });
 
@@ -33,8 +41,6 @@ function changeCharacter() {
 <template>
   <div
     class="
-      h-20
-      w-20
       bg-gradient-to-tl
       rounded
       outline-none
@@ -45,7 +51,7 @@ function changeCharacter() {
       items-center
       select-none
     "
-    :class="iconColor"
+    :class="[iconColor, height, width]"
     @click="changeColor"
   >
     <img :src="character" alt="character" class="w-3/4 select-none" @click="changeCharacter" />

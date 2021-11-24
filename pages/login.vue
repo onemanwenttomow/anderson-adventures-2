@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const { $supabase, $howler } = useNuxtApp();
 const { handleOAuthLogin } = $supabase;
-import { useStore } from '~/stores/options';
-const { vibration } = useStore();
+import { useOptionsStore } from '~/stores/options';
+const { vibration } = useOptionsStore();
 const loading = ref(false);
 
 function signIn() {
