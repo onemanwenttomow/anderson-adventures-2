@@ -20,11 +20,10 @@ function logout() {
   handleLogout();
 }
 
-store.$subscribe((test) => {
-  console.log('store: ',test);
-  if (test.events.key === 'playerSelected' && test.events.newValue.id) {
-    playerSelected.value = test.events.newValue;
-  }
+store.$subscribe(() => {
+  console.log('store: ',store.playerSelected);
+    playerSelected.value = store.playerSelected;
+
 });
 
 </script>
@@ -39,7 +38,7 @@ store.$subscribe((test) => {
         </div>
       </nuxt-link>
       <div class="ml-auto flex">
-        <p v-if="playerSelected" class="pr-4">
+        <p v-if="playerSelected?.character" class="pr-4">
           <AppUserIcon
             :icon-color="playerSelected.color"
             :character="playerSelected.character"
