@@ -20,6 +20,7 @@ function logout() {
 }
 
 store.$subscribe((store) => {
+  console.log('store: ',store);
   if (store.events.key === 'playerSelected' && store.events.newValue.id) {
     playerSelected.value = store.events.newValue;
   }
