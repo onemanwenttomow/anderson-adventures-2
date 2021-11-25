@@ -12,6 +12,7 @@ const route = useRoute();
 const headerReady = ref(false);
 const playerSelected = ref<User>(null);
 console.log('route.path: ', route.path);
+console.log('store: ',store);
 
 function logout() {
   $howler.ok.play();
@@ -19,11 +20,12 @@ function logout() {
   handleLogout();
 }
 
-store.$subscribe((store) => {
-  if (store.events.key === 'playerSelected' && store.events.newValue.id) {
-    playerSelected.value = store.events.newValue;
-  }
+store.$subscribe(() => {
+  console.log('store: ',store.playerSelected);
+    playerSelected.value = store.playerSelected;
+
 });
+
 </script>
 
 <template>
@@ -36,7 +38,7 @@ store.$subscribe((store) => {
         </div>
       </nuxt-link>
       <div class="ml-auto flex">
-        <p v-if="playerSelected" class="pr-4">
+        <p v-if="playerSelected?.character" class="pr-4">
           <AppUserIcon
             :icon-color="playerSelected.color"
             :character="playerSelected.character"
