@@ -12,7 +12,7 @@ const route = useRoute();
 const headerReady = ref(false);
 const playerSelected = ref<User>(null);
 console.log('route.path: ', route.path);
-console.log('store: ',store);
+console.log('store: ', store);
 
 function logout() {
   $howler.ok.play();
@@ -21,11 +21,8 @@ function logout() {
 }
 
 store.$subscribe(() => {
-  console.log('store: ',store.playerSelected);
-    playerSelected.value = store.playerSelected;
-
+  playerSelected.value = store.playerSelected;
 });
-
 </script>
 
 <template>

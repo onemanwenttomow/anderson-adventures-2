@@ -49,7 +49,7 @@ function openUserPickerDialog() {
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative max-w-screen-sm">
     <AppLoading v-if="loading" />
     <div v-else>
       <h1 class="text-4xl md:text-6xl text-white px-6">Whose Playing?</h1>

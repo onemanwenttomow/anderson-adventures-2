@@ -26,7 +26,7 @@ function cancel() {
     class="absolute inset-0 bg-gray-900 text-white flex flex-col justify-center items-center p-4"
   >
     <div>
-      <h1 class="text-4xl md:text-6xl py-6">Add Adventurer</h1>
+      <h1 class="text-4xl md:text-6xl pb-6">Add Adventurer</h1>
       <h2 class="text-gray-500 text-lg pb-6 border-b-2 mb-4 border-gray-500">
         Create your profile to play Anderson Adventures.
       </h2>
