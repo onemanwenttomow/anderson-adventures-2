@@ -8,6 +8,10 @@ export function usePlayerCharacter() {
     '/player/34_minion_02_xxx.png',
     '/player/36_minion_02_xxx.png',
     '/player/45_minion_01_xxx.png',
+    '/player/28_minion_01_xxx.png',
+    '/player/28_minion_02_xxx.png',
+    '/player/28_minion_03_xxx.png',
+    '/player/28_minion_04_xxx.png',
   ]);
 
   let randomIndex = Math.floor(Math.random() * charactersArray.value.length);
