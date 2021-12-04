@@ -1,32 +1,28 @@
 <script setup lang="ts">
 const { $howler } = useNuxtApp();
 const router = useRouter();
-const games = ref([{ name: "TimesTables", slug: "tables" }]);
+const games = ref([{ name: 'TimesTables', slug: 'tables' }]);
 function handleClick(slug) {
-    $howler.ok.play();
-    router.push(`/games/${slug}`);
+  $howler.ok.play();
+  router.push(`/games/${slug}`);
 }
 </script>
 
 <template>
-    <AppPageWrapper class="px-4">
-        <div class="pt-6">
-            <div
-                v-for="game in games"
-                :key="game.name"
-                class="py-4 cursor-pointer"
-                @click="handleClick(game.slug)"
-            >
-                <AppPixelCanvas
-                    src="/items/Weapon_08.png"
-                    :size="5"
-                    @imgloaded="true"
-                />
+  <AppPageWrapper class="px-4">
+    <div class="pt-6">
+      <div
+        v-for="game in games"
+        :key="game.name"
+        class="py-4 cursor-pointer"
+        @click="handleClick(game.slug)"
+      >
+        <AppPixelCanvas src="/items/map.png" :size="5" @imgloaded="true" />
 
-                <h4>
-                    {{ game.name }}
-                </h4>
-            </div>
-        </div>
-    </AppPageWrapper>
+        <h4>
+          {{ game.name }}
+        </h4>
+      </div>
+    </div>
+  </AppPageWrapper>
 </template>
