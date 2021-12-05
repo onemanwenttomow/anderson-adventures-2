@@ -1,19 +1,38 @@
 <script setup lang="ts">
-import { usePlayersStore } from '~/stores/players';
+import { usePlayersStore } from "~/stores/players";
+import { useOptionsStore } from "~/stores/options";
+
 const { playerSelected } = usePlayersStore();
+const { vibration } = useOptionsStore();
+
+const shake = ref("");
+
+function handleDamage() {
+  shake.value = "shake";
+  setTimeout(() => (shake.value = ""), 500);
+  vibration && window.navigator.vibrate(500);
+}
 </script>
 
 <template>
   <AppPageWrapper class="px-4">
     <div class="flex justify-between">
       <div>
-        <AppUserIcon :character="playerSelected.character" height="h-30" width="w-30" />
+        <AppUserIcon
+          :character="playerSelected.character"
+          height="h-30"
+          width="w-30"
+        />
       </div>
 
       <div class="self-center text-4xl">V</div>
 
-      <div class="shake">
-        <AppUserIcon character="/monsters/15_boss_xxx.png" height="h-30" width="w-30" />
+      <div :class="shake" @click="handleDamage">
+        <AppUserIcon
+          character="/monsters/15_boss_xxx.png"
+          height="h-30"
+          width="w-30"
+        />
       </div>
     </div>
   </AppPageWrapper>
