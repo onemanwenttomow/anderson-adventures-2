@@ -2,6 +2,7 @@ declare interface User {
   name: string;
   color: string;
   character: string;
+  timesTablesHearts?: number;
 }
 
 declare interface Credentials {

@@ -15,6 +15,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.1.5",
     "@supabase/supabase-js": "^1.25.2",
+    "@vueuse/core": "^7.1.2",
     "howler": "^2.2.3",
     "nuxt-windicss": "^2.0.9"
   }

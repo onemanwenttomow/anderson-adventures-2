@@ -11,8 +11,6 @@ const route = useRoute();
 
 const headerReady = ref(false);
 const playerSelected = ref<User>(null);
-console.log('route.path: ', route.path);
-console.log('store: ', store);
 
 function logout() {
   $howler.ok.play();

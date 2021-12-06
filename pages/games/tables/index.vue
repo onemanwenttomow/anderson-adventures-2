@@ -1,58 +1,129 @@
 <script setup lang="ts">
-import { usePlayersStore } from '~/stores/players';
 import { useOptionsStore } from '~/stores/options';
+import { usePlayersStore } from '~/stores/players';
+
+const { vibration } = useOptionsStore();
+const { playerSelected } = usePlayersStore();
+const router = useRouter();
 
 const { $howler } = useNuxtApp();
-const { playerSelected } = usePlayersStore();
-const { vibration } = useOptionsStore();
+const enemyDamaged = ref(false);
+const playerDamaged = ref(false);
+const enemyHearts = ref(7);
+const damageClasses = ref(['']);
+const input = ref(null);
+const userInput = ref(null);
 
-const shake = ref('');
+if (!playerSelected.name) {
+  router.push('/');
+}
+onMounted(() => {
+  setTimeout(() => input.value.focus(), 1);
+});
+
+function damageEnemy() {
+  enemyDamaged.value = true;
+  setTimeout(() => {
+    enemyDamaged.value = false;
+    damageClasses.value = [];
+    enemyHearts.value--;
+    if (enemyHearts.value === 0) {
+      console.log('NEXT LEVEL');
+    }
+  }, 500);
+}
+
+function damagePlayer() {
+  playerDamaged.value = true;
+  setTimeout(() => {
+    playerDamaged.value = false;
+    damageClasses.value = [];
+    playerSelected.timesTablesHearts--;
+    if (playerSelected.timesTablesHearts === 0) {
+      console.log('GAME OVER!');
+    }
+  }, 500);
+}
 
 function handleDamage() {
   $howler.hit.play();
-  shake.value = 'shake';
-  setTimeout(() => (shake.value = ''), 500);
+  damageClasses.value.push('shake wounded');
   vibration && window.navigator.vibrate(500);
+  if (userInput.value === 4) {
+    damageEnemy();
+  } else {
+    damagePlayer();
+  }
 }
 </script>
 
 <template>
-  <AppPageWrapper class="px-4">
+  <AppPageWrapper class="px-4" v-if="playerSelected.name">
     <div class="flex justify-between">
-      <div class="w-35 p-2 border-2 border-light-200 rounded">
+      <div class="max-w-[8rem] border-2 border-light-200 rounded">
         <AppUserIcon
-          :character="playerSelected.character"
+          :character="playerSelected?.character"
           height="h-30"
           width="w-30"
           class="flip"
+          :class="playerDamaged && damageClasses"
         />
-        <div class="text-center text-xs relative">
-          <div>🖤🖤🖤🖤🖤🖤🖤</div>
-          <div class="absolute top-0 left-0 text-center text-xs">❤❤❤❤❤</div>
+        <div class="text-xs px-[15px] pb-[15px]">
+          <span
+            v-for="heart in playerSelected.timesTablesHearts"
+            class="inline-block"
+            :class="heart === enemyHearts && playerDamaged ? 'fade' : ''"
+            >❤</span
+          >
         </div>
       </div>
 
       <div class="self-center text-4xl">V</div>
 
-      <div class="w-35 p-2 border-2 border-light-200" @click="handleDamage">
+      <div class="max-w-[8rem] border-2 border-light-200">
         <AppUserIcon
           character="/monsters/15_boss_xxx.png"
           height="h-30"
           width="w-30"
           class="flip"
-          :class="shake"
+          :class="enemyDamaged && damageClasses"
         />
-        <p class="text-xs">❤❤❤❤❤❤❤❤❤❤❤</p>
+        <p class="text-xs px-[15px] pb-[15px]">
+          <span
+            v-for="heart in enemyHearts"
+            class="inline-block"
+            :class="enemyDamaged && heart === enemyHearts ? 'fade' : ''"
+            >❤</span
+          >
+        </p>
       </div>
+    </div>
+    <div class="flex justify-between text-5xl py-4">
+      <div>2</div>
+      <div>X</div>
+      <div>2</div>
+      <div>=</div>
+      <input ref="input" v-model="userInput" class="text-black w-14 h-12 px-2" type="number" />
+      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleDamage" />
     </div>
   </AppPageWrapper>
 </template>
 
 <style scoped>
+.fade {
+  transform: opacity;
+  transition-duration: 500ms;
+  opacity: 0;
+}
 .flip {
   transform: scale(-1, 1);
 }
-
+.wounded {
+  background-color: red;
+  opacity: 0.4;
+  z-index: 10;
+  filter: blur(2px);
+}
 .shake {
   animation: shake 0.5s;
   animation-iteration-count: infinite;
