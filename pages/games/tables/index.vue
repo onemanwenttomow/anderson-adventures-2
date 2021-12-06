@@ -13,6 +13,7 @@ const enemyHearts = ref(7);
 const damageClasses = ref(['']);
 const input = ref(null);
 const userInput = ref(null);
+const randomNumber = ref(Math.floor(Math.random() * 10 + 1));
 
 const turnInAction = computed(() => playerDamaged.value || enemyDamaged.value);
 
@@ -35,6 +36,8 @@ function damageEnemy() {
     if (enemyHearts.value === 0) {
       console.log('NEXT LEVEL');
     }
+    userInput.value = '';
+    randomNumber.value = Math.floor(Math.random() * 10 + 1);
   }, 500);
 }
 
@@ -52,11 +55,13 @@ function damagePlayer() {
 }
 
 function handleDamage() {
-  if (!userInput.value) return;
+  if (!userInput.value || turnInAction.value) {
+    return input.value.focus();
+  }
   $howler.hit.play();
   damageClasses.value.push('shake wounded');
   vibration && window.navigator.vibrate(500);
-  if (userInput.value === 4) {
+  if (userInput.value === 10 * randomNumber.value) {
     damageEnemy();
   } else {
     damagePlayer();
@@ -66,7 +71,7 @@ function handleDamage() {
 
 <template>
   <AppPageWrapper class="px-4" v-if="playerSelected.name">
-    <div class="flex justify-between">
+    <div class="flex justify-between pt-6">
       <div class="max-w-[8rem] border-2 border-light-200 rounded">
         <AppUserIcon
           :character="playerSelected?.character"
@@ -105,10 +110,10 @@ function handleDamage() {
         </p>
       </div>
     </div>
-    <div class="flex justify-between text-5xl py-4">
-      <div>2</div>
-      <div>X</div>
-      <div>2</div>
+    <div class="flex justify-between text-5xl py-10 px-[15px]">
+      <div>10</div>
+      <div>&middot;</div>
+      <div>{{ randomNumber }}</div>
       <div>=</div>
       <input
         ref="input"
@@ -117,14 +122,8 @@ function handleDamage() {
         type="number"
         @keyup.enter="handleDamage"
       />
-      <AppPixelCanvas
-        src="/items/Weapon_08.png"
-        :size="3"
-        @click="handleDamage"
-        :class="turnInAction ? 'opacity-20' : ''"
-      />
+      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleDamage" />
     </div>
-    <pre>turnInAction: {{ turnInAction }}</pre>
   </AppPageWrapper>
 </template>
 

@@ -10,7 +10,7 @@ function handleClick(slug) {
 
 <template>
   <AppPageWrapper class="px-4">
-    <div class="pt-6">
+    <div class="flex justify-center items-center pt-6">
       <div
         v-for="game in games"
         :key="game.name"
