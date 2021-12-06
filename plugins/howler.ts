@@ -14,5 +14,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     src: ['/sounds/hit-4.wav'],
   });
 
-  nuxtApp.provide('howler', { ok, cancel, hit });
+  const music = new Howl({
+    src: ['/sounds/01_LOOP_UPWARDS.wav'],
+    loop: true,
+    volume: 0.2,
+  });
+
+  nuxtApp.provide('howler', { ok, cancel, hit, music });
 });

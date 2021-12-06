@@ -5,8 +5,8 @@ import { usePlayersStore } from '~/stores/players';
 const { vibration } = useOptionsStore();
 const { playerSelected } = usePlayersStore();
 const router = useRouter();
-
 const { $howler } = useNuxtApp();
+
 const enemyDamaged = ref(false);
 const playerDamaged = ref(false);
 const enemyHearts = ref(7);
@@ -14,16 +14,21 @@ const damageClasses = ref(['']);
 const input = ref(null);
 const userInput = ref(null);
 
+const turnInAction = computed(() => playerDamaged.value || enemyDamaged.value);
+
 if (!playerSelected.name) {
   router.push('/');
 }
 onMounted(() => {
-  setTimeout(() => input.value.focus(), 1);
+  if (!input.value) return;
+  setTimeout(() => input.value.focus(), 10);
+  setTimeout(() => $howler.music.play(), 800);
 });
 
 function damageEnemy() {
   enemyDamaged.value = true;
   setTimeout(() => {
+    input.value.focus();
     enemyDamaged.value = false;
     damageClasses.value = [];
     enemyHearts.value--;
@@ -36,6 +41,7 @@ function damageEnemy() {
 function damagePlayer() {
   playerDamaged.value = true;
   setTimeout(() => {
+    input.value.focus();
     playerDamaged.value = false;
     damageClasses.value = [];
     playerSelected.timesTablesHearts--;
@@ -46,6 +52,7 @@ function damagePlayer() {
 }
 
 function handleDamage() {
+  if (!userInput.value) return;
   $howler.hit.play();
   damageClasses.value.push('shake wounded');
   vibration && window.navigator.vibrate(500);
@@ -103,9 +110,21 @@ function handleDamage() {
       <div>X</div>
       <div>2</div>
       <div>=</div>
-      <input ref="input" v-model="userInput" class="text-black w-14 h-12 px-2" type="number" />
-      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleDamage" />
+      <input
+        ref="input"
+        v-model="userInput"
+        class="text-black w-14 h-12 px-2"
+        type="number"
+        @keyup.enter="handleDamage"
+      />
+      <AppPixelCanvas
+        src="/items/Weapon_08.png"
+        :size="3"
+        @click="handleDamage"
+        :class="turnInAction ? 'opacity-20' : ''"
+      />
     </div>
+    <pre>turnInAction: {{ turnInAction }}</pre>
   </AppPageWrapper>
 </template>
 
