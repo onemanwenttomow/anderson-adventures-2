@@ -10,5 +10,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     src: ['/sounds/cancel-3.wav'],
   });
 
-  nuxtApp.provide('howler', { ok, cancel });
+  const hit = new Howl({
+    src: ['/sounds/hit-4.wav'],
+  });
+
+  nuxtApp.provide('howler', { ok, cancel, hit });
 });

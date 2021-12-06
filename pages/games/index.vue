@@ -17,7 +17,7 @@ function handleClick(slug) {
         class="py-4 cursor-pointer"
         @click="handleClick(game.slug)"
       >
-        <AppPixelCanvas src="/items/map.png" :size="5" @imgloaded="true" />
+        <AppPixelCanvas src="/items/Misc_52.png" :size="5" @imgloaded="true" />
 
         <h4>
           {{ game.name }}
