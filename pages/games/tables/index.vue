@@ -14,37 +14,52 @@ const damageClasses = ref(['']);
 const input = ref(null);
 const userInput = ref(null);
 const randomNumber = ref(Math.floor(Math.random() * 10 + 1));
-
+const damageTime = ref(500);
+const damageTimeMs = computed(() => damageTime.value + 'ms');
 const turnInAction = computed(() => playerDamaged.value || enemyDamaged.value);
 
 if (!playerSelected.name) {
   router.push('/');
 }
+
 onMounted(() => {
   if (!input.value) return;
   setTimeout(() => input.value.focus(), 10);
-  setTimeout(() => $howler.music.play(), 800);
+  // setTimeout(() => $howler.music.play(), 800);
 });
+
+function setRandomNumber() {
+  let newRandomNumber = Math.floor(Math.random() * 10 + 1);
+  while (randomNumber.value === newRandomNumber) {
+    newRandomNumber = Math.floor(Math.random() * 10 + 1);
+  }
+  randomNumber.value = newRandomNumber;
+}
 
 function damageEnemy() {
   enemyDamaged.value = true;
   setTimeout(() => {
-    input.value.focus();
     enemyDamaged.value = false;
     damageClasses.value = [];
     enemyHearts.value--;
     if (enemyHearts.value === 0) {
-      console.log('NEXT LEVEL');
+      handleBossDefeat();
     }
     userInput.value = '';
-    randomNumber.value = Math.floor(Math.random() * 10 + 1);
+    setRandomNumber();
   }, 500);
+}
+
+function handleBossDefeat() {
+  console.log('NEXT LEVEL');
+  enemyDamaged.value = true;
+  damageClasses.value.push('fade shake');
+  vibration && window.navigator.vibrate([100, 25, 100, 25, 100, 25, 100, 25]);
 }
 
 function damagePlayer() {
   playerDamaged.value = true;
   setTimeout(() => {
-    input.value.focus();
     playerDamaged.value = false;
     damageClasses.value = [];
     playerSelected.timesTablesHearts--;
@@ -60,7 +75,8 @@ function handleDamage() {
   }
   $howler.hit.play();
   damageClasses.value.push('shake wounded');
-  vibration && window.navigator.vibrate(500);
+  vibration && window.navigator.vibrate(damageTime.value);
+  input.value.focus();
   if (userInput.value === 10 * randomNumber.value) {
     damageEnemy();
   } else {
@@ -110,6 +126,7 @@ function handleDamage() {
         </p>
       </div>
     </div>
+
     <div class="flex justify-between text-5xl py-10 px-[15px]">
       <div>10</div>
       <div>&middot;</div>
@@ -118,7 +135,7 @@ function handleDamage() {
       <input
         ref="input"
         v-model="userInput"
-        class="text-black w-14 h-12 px-2"
+        class="text-black w-14 h-12 px-2 text-xl"
         type="number"
         @keyup.enter="handleDamage"
       />
@@ -130,7 +147,7 @@ function handleDamage() {
 <style scoped>
 .fade {
   transform: opacity;
-  transition-duration: 500ms;
+  transition-duration: v-bind(damageTimeMs);
   opacity: 0;
 }
 .flip {
@@ -143,7 +160,7 @@ function handleDamage() {
   filter: blur(2px);
 }
 .shake {
-  animation: shake 0.5s;
+  animation: shake v-bind(damageTimeMs);
   animation-iteration-count: infinite;
 }
 @keyframes shake {
