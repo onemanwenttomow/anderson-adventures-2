@@ -9,20 +9,23 @@ const { $howler } = useNuxtApp();
 
 const enemyDamaged = ref(false);
 const playerDamaged = ref(false);
-const enemyHearts = ref(1);
+const enemyHearts = ref(3);
 const damageClasses = ref(['']);
 const input = ref(null);
 const userInput = ref(null);
 const randomNumber = ref(Math.floor(Math.random() * 10 + 1));
 const damageTime = ref(500);
+const bossDefeated = ref(false);
 const damageTimeMs = computed(() => damageTime.value + 'ms');
 const turnInAction = computed(() => playerDamaged.value || enemyDamaged.value);
+const gameOver = computed(() => playerSelected.timesTablesHearts === 0);
 
 if (!playerSelected.name) {
   router.push('/');
 }
 
 onMounted(() => {
+  playerSelected.timesTablesHearts = 5;
   if (!input.value) return;
   setTimeout(() => input.value.focus(), 10);
   // setTimeout(() => $howler.music.play(), 800);
@@ -36,49 +39,48 @@ function setRandomNumber() {
   randomNumber.value = newRandomNumber;
 }
 
-function damageEnemy() {
-  enemyDamaged.value = true;
-  setTimeout(() => {
-    enemyDamaged.value = false;
-    damageClasses.value = [];
-    enemyHearts.value--;
-    if (enemyHearts.value === 0) {
-      handleBossDefeat();
-    }
-    userInput.value = '';
-    setRandomNumber();
-  }, 500);
-}
-
 async function handleBossDefeat() {
   console.log('NEXT LEVEL');
   enemyDamaged.value = true;
+  await waitFor(300);
   vibration && window.navigator.vibrate([500, 300, 500, 300, 1000]);
   damageClasses.value.push('shake wounded');
+  $howler.bossDefeat.play();
   await waitFor(500);
   damageClasses.value = [];
   await waitFor(300);
+  $howler.bossDefeat.play();
   damageClasses.value.push('shake wounded');
   await waitFor(500);
   damageClasses.value = [];
   await waitFor(300);
+  $howler.bossDefeat.play();
   damageClasses.value.push('shake, fade');
+  await waitFor(500);
+  bossDefeated.value = true;
 }
 
 async function waitFor(ms) {
   return new Promise((res) => setTimeout(res, ms));
 }
 
-function damagePlayer() {
-  playerDamaged.value = true;
-  setTimeout(() => {
-    playerDamaged.value = false;
-    damageClasses.value = [];
-    playerSelected.timesTablesHearts--;
-    if (playerSelected.timesTablesHearts === 0) {
-      console.log('GAME OVER!');
-    }
-  }, 500);
+function dealDamage() {
+  enemyDamaged.value && enemyHearts.value--;
+  playerDamaged.value && playerSelected.timesTablesHearts--;
+  if (enemyDamaged.value) {
+    userInput.value = '';
+    setRandomNumber();
+  }
+  damageClasses.value = [];
+  playerDamaged.value = false;
+  enemyDamaged.value = false;
+
+  if (playerSelected.timesTablesHearts === 0) {
+    console.log('GAME OVER!');
+  }
+  if (enemyHearts.value === 0) {
+    handleBossDefeat();
+  }
 }
 
 function handleDamage() {
@@ -90,10 +92,11 @@ function handleDamage() {
   vibration && window.navigator.vibrate(damageTime.value);
   input.value.focus();
   if (userInput.value === 10 * randomNumber.value) {
-    damageEnemy();
+    enemyDamaged.value = true;
   } else {
-    damagePlayer();
+    playerDamaged.value = true;
   }
+  setTimeout(dealDamage, damageTime.value);
 }
 </script>
 
@@ -110,9 +113,10 @@ function handleDamage() {
         />
         <div class="text-xs px-[15px] pb-[15px]">
           <span
-            v-for="heart in playerSelected.timesTablesHearts"
+            v-for="(heart, i) in playerSelected.timesTablesHearts"
+            :key="i"
             class="inline-block"
-            :class="heart === enemyHearts && playerDamaged ? 'fade' : ''"
+            :class="playerDamaged && heart === playerSelected.timesTablesHearts ? 'fade' : ''"
             >❤</span
           >
         </div>
@@ -120,7 +124,7 @@ function handleDamage() {
 
       <div class="self-center text-4xl">V</div>
 
-      <div class="max-w-[8rem] border-2 border-light-200">
+      <div v-if="!bossDefeated" class="max-w-[8rem] border-2 border-light-200">
         <AppUserIcon
           character="/monsters/15_boss_xxx.png"
           height="h-30"
@@ -137,9 +141,23 @@ function handleDamage() {
           >
         </p>
       </div>
+      <div
+        v-else
+        class="
+          flex
+          justify-center
+          items-center
+          max-w-[8rem]
+          border-2 border-light-200
+          w-30
+          text-7xl
+        "
+      >
+        ☠
+      </div>
     </div>
 
-    <div class="flex justify-between text-5xl py-10 px-[15px]">
+    <div v-if="!gameOver" class="flex justify-between text-5xl py-10 px-[15px]">
       <div>10</div>
       <div>&middot;</div>
       <div>{{ randomNumber }}</div>
@@ -152,6 +170,13 @@ function handleDamage() {
         @keyup.enter="handleDamage"
       />
       <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleDamage" />
+    </div>
+
+    <div v-else class="flex flex-col justify-center items-center py-10">
+      <p class="text-center text-5xl">Game Over!</p>
+      <nuxt-link to="/games">
+        <AppBtn type="primary" class="m-4 mt-10">Play Again?</AppBtn>
+      </nuxt-link>
     </div>
   </AppPageWrapper>
 </template>

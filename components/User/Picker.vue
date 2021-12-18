@@ -38,7 +38,7 @@ function addUser({ name, iconColor, character }) {
 
 function startGame(user) {
   $howler.ok.play();
-  store.playerSelected = { ...user, timesTablesHearts: 6 };
+  store.playerSelected = { ...user, timesTablesHearts: 5 };
 
   router.push('/games');
 }
