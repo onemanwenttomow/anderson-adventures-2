@@ -9,7 +9,7 @@ const { $howler } = useNuxtApp();
 
 const enemyDamaged = ref(false);
 const playerDamaged = ref(false);
-const enemyHearts = ref(7);
+const enemyHearts = ref(1);
 const damageClasses = ref(['']);
 const input = ref(null);
 const userInput = ref(null);
@@ -50,11 +50,23 @@ function damageEnemy() {
   }, 500);
 }
 
-function handleBossDefeat() {
+async function handleBossDefeat() {
   console.log('NEXT LEVEL');
   enemyDamaged.value = true;
-  damageClasses.value.push('fade shake');
-  vibration && window.navigator.vibrate([100, 25, 100, 25, 100, 25, 100, 25]);
+  damageClasses.value.push('shake wounded');
+  await waitFor(500);
+  damageClasses.value = [];
+  await waitFor(300);
+  damageClasses.value.push('shake wounded');
+  await waitFor(500);
+  damageClasses.value = [];
+  await waitFor(300);
+  damageClasses.value.push('shake, fade');
+  vibration && window.navigator.vibrate([500, 300, 500, 300, 1000]);
+}
+
+async function waitFor(ms) {
+  return new Promise((res) => setTimeout(res, ms));
 }
 
 function damagePlayer() {
