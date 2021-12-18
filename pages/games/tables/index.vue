@@ -53,6 +53,7 @@ function damageEnemy() {
 async function handleBossDefeat() {
   console.log('NEXT LEVEL');
   enemyDamaged.value = true;
+  vibration && window.navigator.vibrate([500, 300, 500, 300, 1000]);
   damageClasses.value.push('shake wounded');
   await waitFor(500);
   damageClasses.value = [];
@@ -62,7 +63,6 @@ async function handleBossDefeat() {
   damageClasses.value = [];
   await waitFor(300);
   damageClasses.value.push('shake, fade');
-  vibration && window.navigator.vibrate([500, 300, 500, 300, 1000]);
 }
 
 async function waitFor(ms) {
