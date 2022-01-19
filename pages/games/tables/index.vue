@@ -27,6 +27,7 @@ if (!playerSelected.name) {
 onMounted(() => {
   playerSelected.timesTablesHearts = 5;
   if (!input.value) return;
+  console.log('focusing...', input.value);
   setTimeout(() => input.value.focus(), 10);
   // setTimeout(() => $howler.music.play(), 800);
 });
@@ -143,15 +144,7 @@ function handleDamage() {
       </div>
       <div
         v-else
-        class="
-          flex
-          justify-center
-          items-center
-          max-w-[8rem]
-          border-2 border-light-200
-          w-30
-          text-7xl
-        "
+        class="flex justify-center items-center max-w-[8rem] border-2 border-light-200 w-30 text-7xl"
       >
         ☠
       </div>
@@ -177,6 +170,22 @@ function handleDamage() {
       <nuxt-link to="/games">
         <AppBtn type="primary" class="m-4 mt-10">Play Again?</AppBtn>
       </nuxt-link>
+    </div>
+
+    <div>
+      <ul class="flex">
+        <li class="num-pad-li">1</li>
+        <li class="num-pad-li">2</li>
+        <li class="num-pad-li">3</li>
+        <li class="num-pad-li">4</li>
+        <li class="num-pad-li">5</li>
+        <li class="num-pad-li">6</li>
+        <li class="num-pad-li">7</li>
+        <li class="num-pad-li">8</li>
+        <li class="num-pad-li">9</li>
+        <li class="num-pad-li">0</li>
+        <li>ENTER</li>
+      </ul>
     </div>
   </AppPageWrapper>
 </template>
