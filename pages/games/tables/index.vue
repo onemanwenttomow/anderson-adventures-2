@@ -88,7 +88,7 @@ function handleInput() {
         />
         <p class="text-xs px-[15px] pb-[15px]">
           <span
-            v-for="(heart, i) in currentMonster.lives"
+            v-for="(heart, i) in enemyHearts"
             :key="i"
             class="inline-block"
             :class="enemyDamaged && heart === enemyHearts ? 'fade' : ''"
