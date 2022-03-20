@@ -19,8 +19,9 @@ export function useGameLogic() {
 	const playerDamaged = ref(false);
 	const bossDefeated = ref(false);
 	const currentTimesTable = ref(10)
+	const currentMonster = ref(levelState.currentMonster);
 
-	const enemyHearts = ref(levelState.level + 3);
+	const enemyHearts = ref(levelState.currentMonster.lives);
 
 	const { playerSelected } = usePlayersStore();
 
@@ -64,8 +65,11 @@ export function useGameLogic() {
 		bossDefeated.value = true;
 
 
-		levelState.increaseLevel()
-		currentTimesTable.value = levelState.currentTimesTable
+		levelState.increaseLevel();
+		currentTimesTable.value = levelState.currentTimesTable;
+		currentMonster.value = levelState.currentMonster;
+		damageClasses.value = [];
+		enemyHearts.value = levelState.level + 3
 	}
 
 	function dealDamage() {
@@ -109,6 +113,7 @@ export function useGameLogic() {
 		handleDamage,
 		randomQuestion,
 		damageTimeMs,
-		currentTimesTable
+		currentTimesTable,
+		currentMonster
 	};
 }

@@ -10,7 +10,8 @@ const { damageClasses,
   handleDamage,
   randomQuestion,
   damageTimeMs,
-  currentTimesTable 
+  currentTimesTable,
+  currentMonster
 } = useGameLogic();
 
 const router = useRouter();
@@ -18,6 +19,7 @@ if (!playerSelected.name) {
   router.push('/');
 }
 
+console.log('currentMonster: ',currentMonster);
 
 const userInput = ref(null);
 const gameOver = computed(() => playerSelected.timesTablesHearts === 0);
@@ -37,15 +39,18 @@ function handleNumPad(entry) {
   }
 
   if (entry === 'enter') {
-    handleDamage(userInput.value)
-    if (enemyDamaged.value) {
-      userInput.value = ''
-    }
-    return
+    return handleInput() 
   }
 
   const oldValue = userInput.value ? userInput.value : '';
   userInput.value = oldValue + entry;
+}
+
+function handleInput() {
+  handleDamage(userInput.value)
+  if (enemyDamaged.value) {
+    userInput.value = ''
+  }
 }
 
 </script>
@@ -73,9 +78,9 @@ function handleNumPad(entry) {
 
       <div class="self-center text-4xl">V</div>
 
-      <div v-if="!bossDefeated" class="max-w-[8rem] border-2 border-light-200">
+      <div class="max-w-[8rem] border-2 border-light-200">
         <AppUserIcon
-          character="/monsters/15_boss_xxx.png"
+          :character="currentMonster.imgUrl"
           height="h-30"
           width="w-30"
           class="flip"
@@ -83,17 +88,13 @@ function handleNumPad(entry) {
         />
         <p class="text-xs px-[15px] pb-[15px]">
           <span
-            v-for="(heart, i) in enemyHearts"
+            v-for="(heart, i) in currentMonster.lives"
             :key="i"
             class="inline-block"
             :class="enemyDamaged && heart === enemyHearts ? 'fade' : ''"
           >❤</span>
         </p>
       </div>
-      <div
-        v-else
-        class="flex justify-center items-center max-w-[8rem] border-2 border-light-200 w-30 text-7xl"
-      >☠</div>
     </div>
 
     <div v-if="!gameOver" class="flex justify-between text-5xl py-10 px-[15px]">
@@ -105,9 +106,9 @@ function handleNumPad(entry) {
         v-model="userInput"
         class="text-black w-14 h-12 px-2 text-xl"
         type="number"
-        @keyup.enter="() => handleDamage(userInput)"
+        @keyup.enter="handleInput"
       />
-      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="() => handleDamage(userInput)" />
+      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleInput" />
     </div>
 
     <div v-else class="flex flex-col justify-center items-center py-10">
