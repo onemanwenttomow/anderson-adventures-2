@@ -8,13 +8,16 @@ const { damageClasses,
   bossDefeated,
   enemyHearts,
   handleDamage,
-  randomTimesTable,
-  damageTimeMs } = useGameLogic();
+  randomQuestion,
+  damageTimeMs,
+  currentTimesTable 
+} = useGameLogic();
 
 const router = useRouter();
 if (!playerSelected.name) {
   router.push('/');
 }
+
 
 const userInput = ref(null);
 const gameOver = computed(() => playerSelected.timesTablesHearts === 0);
@@ -25,6 +28,8 @@ onMounted(() => {
   playerSelected.timesTablesHearts = 5;
   // setTimeout(() => $howler.music.play(), 800);
 });
+
+console.log('currentTimesTable: ',currentTimesTable);
 
 function handleNumPad(entry) {
   if (entry === 'del') {
@@ -92,17 +97,17 @@ function handleNumPad(entry) {
     </div>
 
     <div v-if="!gameOver" class="flex justify-between text-5xl py-10 px-[15px]">
-      <div>10</div>
+      <div>{{ currentTimesTable }}</div>
       <div>&middot;</div>
-      <div>{{ randomTimesTable }}</div>
+      <div>{{ randomQuestion }}</div>
       <div>=</div>
       <input
         v-model="userInput"
         class="text-black w-14 h-12 px-2 text-xl"
         type="number"
-        @keyup.enter="handleDamage"
+        @keyup.enter="() => handleDamage(userInput)"
       />
-      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleDamage" />
+      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="() => handleDamage(userInput)" />
     </div>
 
     <div v-else class="flex flex-col justify-center items-center py-10">
