@@ -57,6 +57,7 @@ function handleInput() {
 
 <template>
   <AppPageWrapper class="px-4" v-if="playerSelected.name">
+    <!-- TODO - show the current level somewhere on the page -->
     <div class="flex justify-between pt-6">
       <div class="max-w-[8rem] border-2 border-light-200 rounded">
         <AppUserIcon
@@ -86,6 +87,8 @@ function handleInput() {
           class="flip"
           :class="enemyDamaged && damageClasses"
         />
+        <!-- Current bug - in showing number of hearts after 1st level -->
+        <!-- Current bug - getting wrong answer after first level damages boss -->
         <p class="text-xs px-[15px] pb-[15px]">
           <span
             v-for="(heart, i) in enemyHearts"
@@ -98,6 +101,7 @@ function handleInput() {
     </div>
 
     <div v-if="!gameOver" class="flex justify-between text-5xl py-10 px-[15px]">
+      <!-- TODO - hide the input area if boss is "being defeated" -->
       <div>{{ currentTimesTable }}</div>
       <div>&middot;</div>
       <div>{{ randomQuestion }}</div>

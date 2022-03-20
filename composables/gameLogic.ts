@@ -70,6 +70,7 @@ export function useGameLogic() {
 		currentMonster.value = levelState.currentMonster;
 		damageClasses.value = [];
 		enemyHearts.value = levelState.currentMonster.lives
+		// TODO - check if reached the end of game
 	}
 
 	function dealDamage() {
