@@ -11,7 +11,7 @@ const enemyDamaged = ref(false);
 const playerDamaged = ref(false);
 const enemyHearts = ref(3);
 const damageClasses = ref(['']);
-const input = ref(null);
+const input = ref('');
 const userInput = ref(null);
 const randomNumber = ref(Math.floor(Math.random() * 10 + 1));
 const damageTime = ref(500);
@@ -38,6 +38,20 @@ function setRandomNumber() {
     newRandomNumber = Math.floor(Math.random() * 10 + 1);
   }
   randomNumber.value = newRandomNumber;
+}
+
+function handleNumPad(entry) {
+  console.log('clicked!', entry);
+  console.log('userInput.value +  entry: ',userInput.value , entry);
+  if (entry === 'del') {
+    return userInput.value = ''
+  }
+
+  if (entry === 'enter') {
+    return handleDamage()
+  }
+  const oldValue  = userInput.value ? userInput.value : '';
+  userInput.value = oldValue +  entry;
 }
 
 async function handleBossDefeat() {
@@ -92,7 +106,7 @@ function handleDamage() {
   damageClasses.value.push('shake wounded');
   vibration && window.navigator.vibrate(damageTime.value);
   input.value.focus();
-  if (userInput.value === 10 * randomNumber.value) {
+  if (userInput.value == 10 * randomNumber.value) {
     enemyDamaged.value = true;
   } else {
     playerDamaged.value = true;
@@ -106,7 +120,7 @@ function handleDamage() {
     <div class="flex justify-between pt-6">
       <div class="max-w-[8rem] border-2 border-light-200 rounded">
         <AppUserIcon
-          :character="playerSelected?.character"
+          :character="playerSelected.character"
           height="h-30"
           width="w-30"
           class="flip"
@@ -135,7 +149,8 @@ function handleDamage() {
         />
         <p class="text-xs px-[15px] pb-[15px]">
           <span
-            v-for="heart in enemyHearts"
+            v-for="(heart, i) in enemyHearts"
+            :key="i"
             class="inline-block"
             :class="enemyDamaged && heart === enemyHearts ? 'fade' : ''"
             >❤</span
@@ -172,21 +187,8 @@ function handleDamage() {
       </nuxt-link>
     </div>
 
-    <div>
-      <ul class="flex">
-        <li class="num-pad-li">1</li>
-        <li class="num-pad-li">2</li>
-        <li class="num-pad-li">3</li>
-        <li class="num-pad-li">4</li>
-        <li class="num-pad-li">5</li>
-        <li class="num-pad-li">6</li>
-        <li class="num-pad-li">7</li>
-        <li class="num-pad-li">8</li>
-        <li class="num-pad-li">9</li>
-        <li class="num-pad-li">0</li>
-        <li>ENTER</li>
-      </ul>
-    </div>
+    <AppNumPad @num="handleNumPad" />
+    
   </AppPageWrapper>
 </template>
 
