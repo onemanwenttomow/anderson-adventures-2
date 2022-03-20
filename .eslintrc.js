@@ -1,3 +1,3 @@
-module.exports = {
-    indent: ["error", 2]
-};
+// module.exports = {
+// 	indent: ["error", 2]
+// };
