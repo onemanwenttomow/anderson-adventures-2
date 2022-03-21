@@ -29,6 +29,7 @@ export function useGameLogic() {
 
 	const damageTime = ref(500);
 	const damageTimeMs = computed(() => damageTime.value + 'ms');
+	const level = ref(levelState.level)
 
 
 	function setRandomTimesTable() {
@@ -70,6 +71,7 @@ export function useGameLogic() {
 		currentMonster.value = levelState.currentMonster;
 		damageClasses.value = [];
 		enemyHearts.value = levelState.currentMonster.lives
+		level.value = levelState.level
 		// TODO - check if reached the end of game
 	}
 
@@ -115,6 +117,7 @@ export function useGameLogic() {
 		randomQuestion,
 		damageTimeMs,
 		currentTimesTable,
-		currentMonster
+		currentMonster,
+		level
 	};
 }

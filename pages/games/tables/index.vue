@@ -2,6 +2,7 @@
 import { usePlayersStore } from '~/stores/players';
 
 const { playerSelected } = usePlayersStore();
+
 const { damageClasses,
   enemyDamaged,
   playerDamaged,
@@ -11,15 +12,16 @@ const { damageClasses,
   randomQuestion,
   damageTimeMs,
   currentTimesTable,
-  currentMonster
+  currentMonster,
+  level
 } = useGameLogic();
+
+console.log('currentMonster: ',currentMonster);
 
 const router = useRouter();
 if (!playerSelected.name) {
   router.push('/');
 }
-
-console.log('currentMonster: ',currentMonster);
 
 const userInput = ref(null);
 const gameOver = computed(() => playerSelected.timesTablesHearts === 0);
@@ -58,6 +60,7 @@ function handleInput() {
 <template>
   <AppPageWrapper class="px-4" v-if="playerSelected.name">
     <!-- TODO - show the current level somewhere on the page -->
+    <h1>Level {{ level + 1 }} </h1>
     <div class="flex justify-between pt-6">
       <div class="max-w-[8rem] border-2 border-light-200 rounded">
         <AppUserIcon

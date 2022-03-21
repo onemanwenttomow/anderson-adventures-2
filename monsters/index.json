@@ -1,0 +1,137 @@
+[
+    [
+        {
+            "id": 1,
+            "imgUrl": "/monsters/03_boss_xxx.png",
+            "lives": 3
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/04_boss_xxx.png",
+            "lives": 3
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/08_boss_xxx.png",
+            "lives": 3
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/22_boss_xxx.png",
+            "lives": 3
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/25_boss_xxx.png",
+            "lives": 3
+        }
+    ],
+    [
+        {
+            "id": 1,
+            "imgUrl": "/monsters/07_boss_xxx.png",
+            "lives": 4
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/09_boss_xxx.png",
+            "lives": 4
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/11_boss_xxx.png",
+            "lives": 4
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/13_boss_xxx.png",
+            "lives": 4
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/14_boss_xxx.png",
+            "lives": 4
+        }
+    ],
+    [
+        {
+            "id": 1,
+            "imgUrl": "/monsters/15_boss_xxx.png",
+            "lives": 5
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/16_boss_xxx.png",
+            "lives": 6
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/17_boss_xxx.png",
+            "lives": 5
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/19_boss_xxx.png",
+            "lives": 6
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/21_boss_xxx.png",
+            "lives": 5
+        }
+    ],
+    [
+        {
+            "id": 1,
+            "imgUrl": "/monsters/23_boss_xxx.png",
+            "lives": 7
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/24_boss_xxx.png",
+            "lives": 7
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/27_boss_xxx.png",
+            "lives": 7
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/29_boss_xxx.png",
+            "lives": 7
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/30_boss_xxx.png",
+            "lives": 7
+        }
+    ],
+    [
+        {
+            "id": 1,
+            "imgUrl": "/monsters/31_boss_xxx.png",
+            "lives": 8
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/32_boss_xxx.png",
+            "lives": 9
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/33_boss_xxx.png",
+            "lives": 8
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/35_boss_xxx.png",
+            "lives": 9
+        },
+        {
+            "id": 1,
+            "imgUrl": "/monsters/37_boss_xxx.png",
+            "lives": 8
+        }
+    ]
+]
