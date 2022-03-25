@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const { $howler } = useNuxtApp();
 const router = useRouter();
-const games = ref([{ name: 'TimesTables', slug: 'tables' }]);
+const games = ref([
+  { name: "TimesTables", slug: "tables" },
+  { name: "Defeated Monsters", slug: "defeated" }
+]);
 function handleClick(slug) {
   $howler.ok.play();
   router.push(`/games/${slug}`);
@@ -10,7 +13,7 @@ function handleClick(slug) {
 
 <template>
   <AppPageWrapper class="px-4">
-    <div class="flex justify-center items-center pt-6">
+    <div class="flex justify-center items-center pt-6 gap-8">
       <div
         v-for="game in games"
         :key="game.name"

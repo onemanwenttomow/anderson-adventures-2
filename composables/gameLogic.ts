@@ -1,126 +1,133 @@
-import { useOptionsStore } from '~/stores/options';
-import { usePlayersStore } from '~/stores/players';
-import { useLevelStore } from '~/stores/level';
-
+import { useOptionsStore } from "~/stores/options";
+import { usePlayersStore } from "~/stores/players";
+import { useLevelStore } from "~/stores/level";
 
 async function waitFor(ms) {
-	return new Promise((res) => setTimeout(res, ms));
+  return new Promise((res) => setTimeout(res, ms));
 }
 
 export function useGameLogic() {
+  const { $howler } = useNuxtApp();
+  const { vibration } = useOptionsStore();
+  const levelState = useLevelStore();
+  const { playerSelected } = usePlayersStore();
 
-	const { $howler } = useNuxtApp();
-	const { vibration } = useOptionsStore();
-	const levelState = useLevelStore();
+  const damageClasses = ref([""]);
+  const enemyDamaged = ref(false);
+  const playerDamaged = ref(false);
+  const bossDefeated = ref(false);
+  const currentTimesTable = ref(10);
+  const currentMonster = ref(levelState.currentMonster);
+  const defeatedMonsters = ref([]);
+  const level = ref(levelState.level);
+  const enemyHearts = ref(levelState.currentMonster.lives);
+  const randomQuestion = ref(Math.floor(Math.random() * 8 + 2));
+  const damageTime = ref(500);
+  const damageTimeMs = computed(() => damageTime.value + "ms");
 
+  function setRandomTimesTable() {
+    let newRandomNumber = Math.floor(Math.random() * 8 + 2);
+    while (randomQuestion.value === newRandomNumber) {
+      newRandomNumber = Math.floor(Math.random() * 8 + 2);
+    }
+    randomQuestion.value = newRandomNumber;
+  }
 
-	const damageClasses = ref(['']);
-	const enemyDamaged = ref(false);
-	const playerDamaged = ref(false);
-	const bossDefeated = ref(false);
-	const currentTimesTable = ref(10)
-	const currentMonster = ref(levelState.currentMonster);
+  function reset() {
+    levelState.reset();
+    level.value = 0;
+    currentMonster.value = levelState.currentMonster;
+    enemyHearts.value = levelState.currentMonster.lives;
+    damageClasses.value = [];
+    enemyDamaged.value = false;
+    bossDefeated.value = false;
+    currentTimesTable.value = 10;
+    defeatedMonsters.value = [];
+  }
 
-	const enemyHearts = ref(levelState.currentMonster.lives);
+  async function handleBossDefeat() {
+    enemyDamaged.value = true;
+    bossDefeated.value = true;
+    defeatedMonsters.value = [...defeatedMonsters.value, currentMonster.value];
+    await monsterDefeatAnimation();
+    levelState.increaseLevel();
+    level.value = levelState.level;
+    if (level.value === 5) {
+      return;
+    }
+    currentTimesTable.value = levelState.currentTimesTable;
+    currentMonster.value = levelState.currentMonster;
+    damageClasses.value = [];
+    enemyHearts.value = 1;
+    enemyDamaged.value = false;
+    bossDefeated.value = false;
+  }
 
-	const { playerSelected } = usePlayersStore();
+  async function monsterDefeatAnimation() {
+    await waitFor(300);
+    vibration && window.navigator.vibrate([500, 300, 500, 300, 1000]);
+    damageClasses.value.push("shake wounded");
+    $howler.bossDefeat.play();
 
-	const randomQuestion = ref(Math.floor(Math.random() * 10 + 1));
+    await waitFor(500);
+    damageClasses.value = [];
 
-	const damageTime = ref(500);
-	const damageTimeMs = computed(() => damageTime.value + 'ms');
-	const level = ref(levelState.level)
+    await waitFor(300);
+    $howler.bossDefeat.play();
+    damageClasses.value.push("shake wounded");
 
+    await waitFor(500);
+    damageClasses.value = [];
 
-	function setRandomTimesTable() {
-		let newRandomNumber = Math.floor(Math.random() * 10 + 1);
-		while (randomQuestion.value === newRandomNumber) {
-			newRandomNumber = Math.floor(Math.random() * 10 + 1);
-		}
-		randomQuestion.value = newRandomNumber;
-	}
+    await waitFor(300);
+    $howler.bossDefeat.play();
+    damageClasses.value.push("shake, wounded-fade");
 
-	async function handleBossDefeat() {
-		enemyDamaged.value = true;
-		bossDefeated.value = true;
+    await waitFor(500);
+  }
 
+  function dealDamage() {
+    enemyDamaged.value && enemyHearts.value--;
+    playerDamaged.value && playerSelected.timesTablesHearts--;
 
-		await waitFor(300);
-		vibration && window.navigator.vibrate([500, 300, 500, 300, 1000]);
-		damageClasses.value.push('shake wounded');
-		$howler.bossDefeat.play();
+    if (enemyDamaged.value) {
+      setRandomTimesTable();
+    }
 
-		await waitFor(500);
-		damageClasses.value = [];
+    damageClasses.value = [];
+    playerDamaged.value = false;
+    enemyDamaged.value = false;
 
-		await waitFor(300);
-		$howler.bossDefeat.play();
-		damageClasses.value.push('shake wounded');
+    if (enemyHearts.value === 0) {
+      handleBossDefeat();
+    }
+  }
 
-		await waitFor(500);
-		damageClasses.value = [];
+  function handleDamage(input) {
+    $howler.hit.play();
+    damageClasses.value.push("shake wounded");
+    vibration && window.navigator.vibrate(damageTime.value);
+    if (input == currentTimesTable.value * randomQuestion.value) {
+      enemyDamaged.value = true;
+    } else {
+      playerDamaged.value = true;
+    }
+    setTimeout(dealDamage, damageTime.value);
+  }
 
-		await waitFor(300);
-		$howler.bossDefeat.play();
-		damageClasses.value.push('shake, fade');
-
-		await waitFor(500);
-
-
-		levelState.increaseLevel();
-		currentTimesTable.value = levelState.currentTimesTable;
-		currentMonster.value = levelState.currentMonster;
-		damageClasses.value = [];
-		enemyHearts.value = levelState.currentMonster.lives;
-		level.value = levelState.level;
-		enemyDamaged.value = false;
-		bossDefeated.value = false;
-		// TODO - check if reached the end of game
-	}
-
-	function dealDamage() {
-		enemyDamaged.value && enemyHearts.value--;
-		playerDamaged.value && playerSelected.timesTablesHearts--;
-
-		if (enemyDamaged.value) {
-			setRandomTimesTable();
-		}
-
-		damageClasses.value = [];
-		playerDamaged.value = false;
-		enemyDamaged.value = false;
-
-		if (playerSelected.timesTablesHearts === 0) {
-			console.log('GAME OVER!');
-		}
-		if (enemyHearts.value === 0) {
-			handleBossDefeat();
-		}
-	}
-
-	function handleDamage(input) {
-		$howler.hit.play();
-		damageClasses.value.push('shake wounded');
-		vibration && window.navigator.vibrate(damageTime.value);
-		if (input == currentTimesTable.value * randomQuestion.value) {
-			enemyDamaged.value = true;
-		} else {
-			playerDamaged.value = true;
-		}
-		setTimeout(dealDamage, damageTime.value);
-	}
-
-	return {
-		damageClasses,
-		enemyDamaged,
-		playerDamaged,
-		bossDefeated,
-		enemyHearts,
-		handleDamage,
-		randomQuestion,
-		damageTimeMs,
-		currentTimesTable,
-		currentMonster,
-		level
-	};
+  return {
+    damageClasses,
+    enemyDamaged,
+    playerDamaged,
+    bossDefeated,
+    enemyHearts,
+    handleDamage,
+    randomQuestion,
+    damageTimeMs,
+    currentTimesTable,
+    currentMonster,
+    level,
+    defeatedMonsters,
+    reset
+  };
 }
