@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { usePlayersStore } from '~/stores/players';
+import { usePlayersStore } from "~/stores/players";
 
 const { playerSelected } = usePlayersStore();
 
-const { damageClasses,
+const {
+  damageClasses,
   enemyDamaged,
   playerDamaged,
   bossDefeated,
@@ -16,50 +17,53 @@ const { damageClasses,
   level
 } = useGameLogic();
 
-console.log('currentMonster: ',currentMonster);
+console.log("currentMonster: ", currentMonster);
 
 const router = useRouter();
 if (!playerSelected.name) {
-  router.push('/');
+  router.push("/");
 }
 
 const userInput = ref(null);
 const gameOver = computed(() => playerSelected.timesTablesHearts === 0);
 const turnInAction = computed(() => playerDamaged.value || enemyDamaged.value);
 
-
 onMounted(() => {
   playerSelected.timesTablesHearts = 5;
   // setTimeout(() => $howler.music.play(), 800);
 });
 
-console.log('currentTimesTable: ',currentTimesTable);
+console.log("currentTimesTable: ", currentTimesTable);
 
 function handleNumPad(entry) {
-  if (entry === 'del') {
-    return userInput.value = ''
+  if (entry === "del") {
+    return (userInput.value = "");
   }
 
-  if (entry === 'enter') {
-    return handleInput() 
+  if (entry === "enter") {
+    return handleInput();
   }
 
-  const oldValue = userInput.value ? userInput.value : '';
+  const oldValue = userInput.value ? userInput.value : "";
   userInput.value = oldValue + entry;
 }
 
 function handleInput() {
-  handleDamage(userInput.value)
+  handleDamage(userInput.value);
   if (enemyDamaged.value) {
-    userInput.value = ''
+    userInput.value = "";
   }
 }
-
 </script>
 
 <template>
   <AppPageWrapper class="px-4" v-if="playerSelected.name">
-    <h1 class="text-2xl text-center">Level <span class="bg-gray-600 w-8 rounded-sm">{{ level + 1 }}</span></h1>
+    <h1 class="text-2xl text-center">
+      Level
+      <span class="inline-block bg-gray-600 w-8 rounded-sm">{{
+        level + 1
+      }}</span>
+    </h1>
     <div class="flex justify-between pt-6">
       <div class="max-w-[8rem] border-2 border-light-200 rounded">
         <AppUserIcon
@@ -74,8 +78,13 @@ function handleInput() {
             v-for="(heart, i) in playerSelected.timesTablesHearts"
             :key="i"
             class="inline-block"
-            :class="playerDamaged && heart === playerSelected.timesTablesHearts ? 'fade' : ''"
-          >❤</span>
+            :class="
+              playerDamaged && heart === playerSelected.timesTablesHearts
+                ? 'fade'
+                : ''
+            "
+            >❤</span
+          >
         </div>
       </div>
 
@@ -96,12 +105,16 @@ function handleInput() {
             :key="i"
             class="inline-block"
             :class="enemyDamaged && heart === enemyHearts ? 'fade' : ''"
-          >❤</span>
+            >❤</span
+          >
         </p>
       </div>
     </div>
 
-    <div v-if="!gameOver && !bossDefeated" class="flex justify-between text-5xl py-10 px-[15px]">
+    <div
+      v-if="!gameOver && !bossDefeated"
+      class="flex justify-between text-5xl py-10 px-[15px]"
+    >
       <div>{{ currentTimesTable }}</div>
       <div>&middot;</div>
       <div>{{ randomQuestion }}</div>
@@ -112,10 +125,17 @@ function handleInput() {
         type="number"
         @keyup.enter="handleInput"
       />
-      <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleInput" />
+      <AppPixelCanvas
+        src="/items/Weapon_08.png"
+        :size="3"
+        @click="handleInput"
+      />
     </div>
 
-    <div v-if="gameOver" class="flex flex-col justify-center items-center py-10">
+    <div
+      v-if="gameOver"
+      class="flex flex-col justify-center items-center py-10"
+    >
       <p class="text-center text-5xl">Game Over!</p>
       <nuxt-link to="/games">
         <AppBtn type="primary" class="m-4 mt-10">Play Again?</AppBtn>
