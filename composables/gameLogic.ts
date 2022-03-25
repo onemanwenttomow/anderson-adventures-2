@@ -7,8 +7,9 @@ async function waitFor(ms) {
 }
 
 export function useGameLogic() {
-  const { $howler } = useNuxtApp();
+  const { $howler, $supabase } = useNuxtApp();
   const { vibration } = useOptionsStore();
+  const { defeatMonster } = $supabase;
   const levelState = useLevelStore();
   const { playerSelected } = usePlayersStore();
 
@@ -49,6 +50,7 @@ export function useGameLogic() {
     enemyDamaged.value = true;
     bossDefeated.value = true;
     defeatedMonsters.value = [...defeatedMonsters.value, currentMonster.value];
+    defeatMonster(currentMonster.value.id, playerSelected.id);
     await monsterDefeatAnimation();
     levelState.increaseLevel();
     level.value = levelState.level;
@@ -58,7 +60,7 @@ export function useGameLogic() {
     currentTimesTable.value = levelState.currentTimesTable;
     currentMonster.value = levelState.currentMonster;
     damageClasses.value = [];
-    enemyHearts.value = 1;
+    enemyHearts.value = levelState.currentMonster.lives;
     enemyDamaged.value = false;
     bossDefeated.value = false;
   }

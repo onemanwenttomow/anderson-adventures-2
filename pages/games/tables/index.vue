@@ -41,8 +41,6 @@ function resetGame() {
   reset();
 }
 
-console.log("currentTimesTable: ", currentTimesTable);
-
 function handleNumPad(entry) {
   if (entry === "del") {
     return (userInput.value = "");

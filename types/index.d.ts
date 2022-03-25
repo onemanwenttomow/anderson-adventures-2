@@ -1,4 +1,5 @@
 declare interface User {
+  id: number;
   name: string;
   color: string;
   character: string;
@@ -8,5 +9,5 @@ declare interface User {
 declare interface Credentials {
   email?: string | undefined;
   password?: string | undefined;
-  provider?: 'google' | undefined;
+  provider?: "google" | undefined;
 }
