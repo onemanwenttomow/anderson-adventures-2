@@ -42,6 +42,8 @@ export function useGameLogic() {
 
 	async function handleBossDefeat() {
 		enemyDamaged.value = true;
+		bossDefeated.value = true;
+
 
 		await waitFor(300);
 		vibration && window.navigator.vibrate([500, 300, 500, 300, 1000]);
@@ -63,7 +65,6 @@ export function useGameLogic() {
 		damageClasses.value.push('shake, fade');
 
 		await waitFor(500);
-		bossDefeated.value = true;
 
 
 		levelState.increaseLevel();
@@ -73,6 +74,7 @@ export function useGameLogic() {
 		enemyHearts.value = levelState.currentMonster.lives;
 		level.value = levelState.level;
 		enemyDamaged.value = false;
+		bossDefeated.value = false;
 		// TODO - check if reached the end of game
 	}
 

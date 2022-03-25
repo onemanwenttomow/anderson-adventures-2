@@ -102,8 +102,7 @@ function handleInput() {
       </div>
     </div>
 
-    <div v-if="!gameOver" class="flex justify-between text-5xl py-10 px-[15px]">
-      <!-- TODO - hide the input area if boss is "being defeated" -->
+    <div v-if="!gameOver && !bossDefeated" class="flex justify-between text-5xl py-10 px-[15px]">
       <div>{{ currentTimesTable }}</div>
       <div>&middot;</div>
       <div>{{ randomQuestion }}</div>
@@ -117,14 +116,14 @@ function handleInput() {
       <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleInput" />
     </div>
 
-    <div v-else class="flex flex-col justify-center items-center py-10">
+    <div v-if="gameOver" class="flex flex-col justify-center items-center py-10">
       <p class="text-center text-5xl">Game Over!</p>
       <nuxt-link to="/games">
         <AppBtn type="primary" class="m-4 mt-10">Play Again?</AppBtn>
       </nuxt-link>
     </div>
 
-    <AppNumPad v-if="!gameOver" @num="handleNumPad" />
+    <AppNumPad v-if="!gameOver && !bossDefeated" @num="handleNumPad" />
   </AppPageWrapper>
 </template>
 
