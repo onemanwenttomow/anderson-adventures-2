@@ -60,7 +60,7 @@ function handleInput() {
 <template>
   <AppPageWrapper class="px-4" v-if="playerSelected.name">
     <!-- TODO - show the current level somewhere on the page -->
-    <h1>Level {{ level + 1 }} </h1>
+    <h1 class="text-2xl text-center">Level <span>{{ level + 1 }}</span></h1>
     <div class="flex justify-between pt-6">
       <div class="max-w-[8rem] border-2 border-light-200 rounded">
         <AppUserIcon
