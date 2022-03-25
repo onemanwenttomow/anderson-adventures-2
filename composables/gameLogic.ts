@@ -70,8 +70,9 @@ export function useGameLogic() {
 		currentTimesTable.value = levelState.currentTimesTable;
 		currentMonster.value = levelState.currentMonster;
 		damageClasses.value = [];
-		enemyHearts.value = levelState.currentMonster.lives
-		level.value = levelState.level
+		enemyHearts.value = levelState.currentMonster.lives;
+		level.value = levelState.level;
+		enemyDamaged.value = false;
 		// TODO - check if reached the end of game
 	}
 

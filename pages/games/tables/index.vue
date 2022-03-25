@@ -90,7 +90,6 @@ function handleInput() {
           class="flip"
           :class="enemyDamaged && damageClasses"
         />
-        <!-- Current bug - in showing number of hearts after 1st level -->
         <!-- Current bug - getting wrong answer after first level damages boss -->
         <p class="text-xs px-[15px] pb-[15px]">
           <span
