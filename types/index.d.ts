@@ -11,3 +11,9 @@ declare interface Credentials {
   password?: string | undefined;
   provider?: "google" | undefined;
 }
+
+declare interface Monster {
+  id: number;
+  imgUrl: string;
+  lives: number;
+}

@@ -18,7 +18,7 @@ export function useGameLogic() {
   const playerDamaged = ref(false);
   const bossDefeated = ref(false);
   const currentTimesTable = ref(10);
-  const currentMonster = ref(levelState.currentMonster);
+  const currentMonster: Ref<Monster> = ref(levelState.currentMonster);
   const defeatedMonsters = ref([]);
   const level = ref(levelState.level);
   const enemyHearts = ref(levelState.currentMonster.lives);
