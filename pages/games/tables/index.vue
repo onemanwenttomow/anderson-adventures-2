@@ -104,7 +104,9 @@ function handleInput() {
         v-if="!gameOver && !bossDefeated"
         class="flex justify-between text-5xl py-10 px-[15px]"
       >
-        <div>{{ currentTimesTable }}</div>
+        <transition name="slide-fade" mode="out-in">
+          <div :key="currentTimesTable">{{ currentTimesTable }}</div>
+        </transition>
         <div>&middot;</div>
         <transition name="slide-fade" mode="out-in">
           <div :key="randomQuestion">{{ randomQuestion }}</div>

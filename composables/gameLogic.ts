@@ -32,6 +32,10 @@ export function useGameLogic() {
       newRandomNumber = Math.floor(Math.random() * 8 + 2);
     }
     randomQuestion.value = newRandomNumber;
+    currentTimesTable.value =
+      levelState.timesTables[level.value][
+        Math.floor(Math.random() * levelState.timesTables[level.value].length)
+      ];
   }
 
   function reset() {
