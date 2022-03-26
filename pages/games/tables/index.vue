@@ -67,9 +67,7 @@ function handleInput() {
     <h1 v-if="level < 5" class="text-2xl text-center">
       Level
       <span class="inline-block bg-gray-600 w-8 rounded-sm">
-        {{
-          level + 1
-        }}
+        {{ level + 1 }}
       </span>
     </h1>
     <div class="flex justify-between pt-6">
@@ -81,18 +79,10 @@ function handleInput() {
           class="flip"
           :class="playerDamaged && damageClasses"
         />
-        <div class="text-xs px-[15px] pb-[15px]">
-          <span
-            v-for="(heart, i) in playerSelected.timesTablesHearts"
-            :key="i"
-            class="inline-block"
-            :class="
-              playerDamaged && heart === playerSelected.timesTablesHearts
-                ? 'fade'
-                : ''
-            "
-          >❤</span>
-        </div>
+        <GameHearts
+          :hearts="playerSelected.timesTablesHearts"
+          :damaged="playerDamaged"
+        />
       </div>
 
       <div class="self-center text-4xl">V</div>
@@ -105,19 +95,15 @@ function handleInput() {
           class="flip"
           :class="enemyDamaged && damageClasses"
         />
-        <p class="text-xs px-[15px] pb-[15px]">
-          <span
-            v-for="(heart, i) in enemyHearts"
-            :key="i"
-            class="inline-block"
-            :class="enemyDamaged && heart === enemyHearts ? 'fade' : ''"
-          >❤</span>
-        </p>
+        <GameHearts :hearts="enemyHearts" :damaged="enemyDamaged" />
       </div>
     </div>
 
     <Transition name="bounce">
-      <div v-if="!gameOver && !bossDefeated" class="flex justify-between text-5xl py-10 px-[15px]">
+      <div
+        v-if="!gameOver && !bossDefeated"
+        class="flex justify-between text-5xl py-10 px-[15px]"
+      >
         <div>{{ currentTimesTable }}</div>
         <div>&middot;</div>
         <transition name="slide-fade" mode="out-in">
@@ -130,18 +116,32 @@ function handleInput() {
           type="number"
           @keyup.enter="handleInput"
         />
-        <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleInput" />
+        <AppPixelCanvas
+          src="/items/Weapon_08.png"
+          :size="3"
+          @click="handleInput"
+        />
       </div>
     </Transition>
 
-    <div v-if="gameOver" class="flex flex-col justify-center items-center py-10">
+    <div
+      v-if="gameOver"
+      class="flex flex-col justify-center items-center py-10"
+    >
       <p class="text-center text-5xl">Game Over!</p>
-      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame">Play Again?</AppBtn>
+      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame"
+        >Play Again?</AppBtn
+      >
     </div>
 
-    <div v-if="playerWon" class="flex flex-col justify-center items-center py-10">
+    <div
+      v-if="playerWon"
+      class="flex flex-col justify-center items-center py-10"
+    >
       <p class="text-center text-3xl">Congratulations 🎉</p>
-      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame">Play Again?</AppBtn>
+      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame"
+        >Play Again?</AppBtn
+      >
       <div class="flex flex-wrap">
         <AppUserIcon
           v-for="monster in defeatedMonsters"
@@ -154,7 +154,7 @@ function handleInput() {
       </div>
     </div>
 
-    <AppNumPad v-if="!gameOver && !bossDefeated" @num="handleNumPad" />
+    <GameNumPad v-if="!gameOver && !bossDefeated" @num="handleNumPad" />
   </AppPageWrapper>
 </template>
 
