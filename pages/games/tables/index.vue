@@ -66,9 +66,11 @@ function handleInput() {
   <AppPageWrapper class="px-4" v-if="playerSelected.name">
     <h1 v-if="level < 5" class="text-2xl text-center">
       Level
-      <span class="inline-block bg-gray-600 w-8 rounded-sm">{{
-        level + 1
-      }}</span>
+      <span class="inline-block bg-gray-600 w-8 rounded-sm">
+        {{
+          level + 1
+        }}
+      </span>
     </h1>
     <div class="flex justify-between pt-6">
       <div class="max-w-[8rem] border-2 border-light-200 rounded">
@@ -89,8 +91,7 @@ function handleInput() {
                 ? 'fade'
                 : ''
             "
-            >❤</span
-          >
+          >❤</span>
         </div>
       </div>
 
@@ -110,53 +111,37 @@ function handleInput() {
             :key="i"
             class="inline-block"
             :class="enemyDamaged && heart === enemyHearts ? 'fade' : ''"
-            >❤</span
-          >
+          >❤</span>
         </p>
       </div>
     </div>
 
-    <div
-      v-if="!gameOver && !bossDefeated"
-      class="flex justify-between text-5xl py-10 px-[15px]"
-    >
-      <div>{{ currentTimesTable }}</div>
-      <div>&middot;</div>
-      <transition name="slide-fade" mode="out-in">
-        <div :key="randomQuestion">{{ randomQuestion }}</div>
-      </transition>
-      <div>=</div>
-      <input
-        v-model="userInput"
-        class="text-black w-14 h-12 px-2 text-xl"
-        type="number"
-        @keyup.enter="handleInput"
-      />
-      <AppPixelCanvas
-        src="/items/Weapon_08.png"
-        :size="3"
-        @click="handleInput"
-      />
-    </div>
+    <Transition name="bounce">
+      <div v-if="!gameOver && !bossDefeated" class="flex justify-between text-5xl py-10 px-[15px]">
+        <div>{{ currentTimesTable }}</div>
+        <div>&middot;</div>
+        <transition name="slide-fade" mode="out-in">
+          <div :key="randomQuestion">{{ randomQuestion }}</div>
+        </transition>
+        <div>=</div>
+        <input
+          v-model="userInput"
+          class="text-black w-14 h-12 px-2 text-xl"
+          type="number"
+          @keyup.enter="handleInput"
+        />
+        <AppPixelCanvas src="/items/Weapon_08.png" :size="3" @click="handleInput" />
+      </div>
+    </Transition>
 
-    <div
-      v-if="gameOver"
-      class="flex flex-col justify-center items-center py-10"
-    >
+    <div v-if="gameOver" class="flex flex-col justify-center items-center py-10">
       <p class="text-center text-5xl">Game Over!</p>
-      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame"
-        >Play Again?</AppBtn
-      >
+      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame">Play Again?</AppBtn>
     </div>
 
-    <div
-      v-if="playerWon"
-      class="flex flex-col justify-center items-center py-10"
-    >
+    <div v-if="playerWon" class="flex flex-col justify-center items-center py-10">
       <p class="text-center text-3xl">Congratulations 🎉</p>
-      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame"
-        >Play Again?</AppBtn
-      >
+      <AppBtn type="primary" class="m-4 mt-10" @click="resetGame">Play Again?</AppBtn>
       <div class="flex flex-wrap">
         <AppUserIcon
           v-for="monster in defeatedMonsters"
@@ -201,15 +186,38 @@ function handleInput() {
 }
 
 .slide-fade-enter-active {
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 .slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active for <2.1.8 */ {
-  transform: translateY(10px);
+
+.slide-fade-enter-from {
+  transform: translateY(-20px);
   opacity: 0;
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes shake {
