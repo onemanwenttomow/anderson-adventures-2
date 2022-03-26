@@ -7,7 +7,6 @@ const { playerSelected } = usePlayersStore();
 const { $supabase } = useNuxtApp();
 const { getDefetatedMonsters } = $supabase;
 const data = await getDefetatedMonsters(playerSelected.id);
-console.log("monsters: ", monsters);
 
 const alreadyDefeated = ref(data.map((row) => row.monster_id));
 </script>

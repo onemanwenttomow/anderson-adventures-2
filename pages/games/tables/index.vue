@@ -99,7 +99,7 @@ function handleInput() {
       </div>
     </div>
 
-    <Transition name="bounce">
+    <transition name="bounce">
       <div
         v-if="!gameOver && !bossDefeated"
         class="flex justify-between text-5xl py-10 px-[15px]"
@@ -124,7 +124,7 @@ function handleInput() {
           @click="handleInput"
         />
       </div>
-    </Transition>
+    </transition>
 
     <div
       v-if="gameOver"
