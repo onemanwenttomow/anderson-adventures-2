@@ -2,8 +2,8 @@
 const { $howler } = useNuxtApp();
 const router = useRouter();
 const games = ref([
-  { name: "TimesTables", slug: "tables" },
-  { name: "Defeated Monsters", slug: "defeated" }
+  { name: "TimesTables", slug: "tables", icon: "/items/Misc_52.png" },
+  { name: "Defeated Monsters", slug: "defeated", icon: "/items/Misc_12.png" }
 ]);
 function handleClick(slug) {
   $howler.ok.play();
@@ -20,11 +20,7 @@ function handleClick(slug) {
         class="py-4 cursor-pointer"
         @click="handleClick(game.slug)"
       >
-        <AppPixelCanvas src="/items/Misc_52.png" :size="5" @imgloaded="true" />
-
-        <h4>
-          {{ game.name }}
-        </h4>
+        <AppPixelCanvas :src="game.icon" :size="5" @imgloaded="true" />
       </div>
     </div>
   </AppPageWrapper>
