@@ -54,6 +54,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         .insert([
           { name, user_id, color: userIcon.value, character: character.value }
         ]);
+      return data;
     } catch (error) {
       console.error("handleAddUser error: ", error);
     }

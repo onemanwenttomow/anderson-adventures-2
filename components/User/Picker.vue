@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { $supabase, $howler } = useNuxtApp();
-import { usePlayersStore } from '~/stores/players';
+import { usePlayersStore } from "~/stores/players";
 const store = usePlayersStore();
 const { handleAddUser, getAllUsers } = $supabase;
 const router = useRouter();
@@ -30,17 +30,17 @@ async function fetchUsers() {
   loading.value = false;
 }
 
-function addUser({ name, iconColor, character }) {
+async function addUser({ name, iconColor, character }) {
   showDialog.value = false;
-  handleAddUser(name, iconColor, character);
-  users.value.push({ name, color: iconColor, character });
+  const [user] = await handleAddUser(name, iconColor, character);
+  users.value.push(user);
 }
 
 function startGame(user) {
   $howler.ok.play();
   store.playerSelected = { ...user, timesTablesHearts: 5 };
 
-  router.push('/games');
+  router.push("/games");
 }
 
 function openUserPickerDialog() {
@@ -71,27 +71,20 @@ function openUserPickerDialog() {
         </div>
         <div @click="openUserPickerDialog">
           <div
-            class="
-              h-20
-              w-20
-              m-1
-              rounded
-              hover:bg-white
-              text-gray-500
-              flex
-              justify-center
-              items-center
-              text-6xl
-              font-bold
-              cursor-pointer
-            "
+            class="h-20 w-20 m-1 rounded hover:bg-white text-gray-500 flex justify-center items-center text-6xl font-bold cursor-pointer"
           >
             <div class="-mt-4">+</div>
           </div>
-          <div class="text-gray-500 text-lg text-center w-20 leading-none">Add Adventurer</div>
+          <div class="text-gray-500 text-lg text-center w-20 leading-none">
+            Add Adventurer
+          </div>
         </div>
         <transition name="bounce">
-          <UserPickerDialog v-if="showDialog" @cancel="showDialog = !showDialog" @save="addUser" />
+          <UserPickerDialog
+            v-if="showDialog"
+            @cancel="showDialog = !showDialog"
+            @save="addUser"
+          />
         </transition>
       </div>
     </div>

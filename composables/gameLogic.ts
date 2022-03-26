@@ -1,7 +1,7 @@
 import { useOptionsStore } from "~/stores/options";
 import { usePlayersStore } from "~/stores/players";
 import { useLevelStore } from "~/stores/level";
-import { ref, Ref } from 'vue';
+import { ref, Ref } from "vue";
 
 async function waitFor(ms) {
   return new Promise((res) => setTimeout(res, ms));
