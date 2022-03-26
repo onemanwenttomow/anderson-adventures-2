@@ -1,6 +1,7 @@
 import { useOptionsStore } from "~/stores/options";
 import { usePlayersStore } from "~/stores/players";
 import { useLevelStore } from "~/stores/level";
+import { ref, Ref } from 'vue';
 
 async function waitFor(ms) {
   return new Promise((res) => setTimeout(res, ms));
@@ -21,7 +22,7 @@ export function useGameLogic() {
   const currentMonster: Ref<Monster> = ref(levelState.currentMonster);
   const defeatedMonsters = ref([]);
   const level = ref(levelState.level);
-  const enemyHearts = ref(levelState.currentMonster.lives);
+  const enemyHearts: Ref<number> = ref(levelState.currentMonster.lives);
   const randomQuestion = ref(Math.floor(Math.random() * 8 + 2));
   const damageTime = ref(500);
   const damageTimeMs = computed(() => damageTime.value + "ms");
@@ -109,7 +110,7 @@ export function useGameLogic() {
     }
   }
 
-  function handleDamage(input) {
+  function handleDamage(input: number) {
     $howler.hit.play();
     damageClasses.value.push("shake wounded");
     vibration && window.navigator.vibrate(damageTime.value);
