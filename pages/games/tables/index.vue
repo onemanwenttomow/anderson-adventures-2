@@ -42,6 +42,9 @@ function resetGame() {
 }
 
 function handleNumPad(entry) {
+  if (turnInAction.value) {
+    return;
+  }
   if (entry === "del") {
     return (userInput.value = "");
   }
