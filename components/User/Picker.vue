@@ -8,6 +8,8 @@ const showDialog = ref(false);
 const loading = ref(true);
 const users = ref([] as User[]);
 
+const { reset } = useGameLogic();
+
 onMounted(async () => {
   if (store.playersFetched) {
     users.value = store.players;
@@ -37,6 +39,7 @@ async function addUser({ name, iconColor, character }) {
 }
 
 function startGame(user) {
+  reset();
   $howler.ok.play();
   store.playerSelected = { ...user, timesTablesHearts: 5 };
 
