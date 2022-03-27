@@ -147,16 +147,7 @@ function handleInput() {
       <AppBtn type="primary" class="m-4 mt-10" @click="resetGame"
         >Play Again?</AppBtn
       >
-      <div class="flex flex-wrap">
-        <AppUserIcon
-          v-for="monster in defeatedMonsters"
-          :key="monster.id"
-          :character="monster.imgUrl"
-          height="h-30"
-          width="w-30"
-          class="flip grayed"
-        />
-      </div>
+      <GameDefeatedMonsters :monsters="defeatedMonsters" />
     </div>
 
     <GameNumPad v-if="!gameOver && !bossDefeated" @num="handleNumPad" />

@@ -65,7 +65,8 @@ export function useGameLogic() {
     currentTimesTable.value = levelState.currentTimesTable;
     currentMonster.value = levelState.currentMonster;
     damageClasses.value = [];
-    enemyHearts.value = levelState.currentMonster.lives;
+    enemyHearts.value = 1;
+    // enemyHearts.value = levelState.currentMonster.lives;
     enemyDamaged.value = false;
     bossDefeated.value = false;
   }
