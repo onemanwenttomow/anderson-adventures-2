@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import gsap from 'gsap'
+import gsap from "gsap";
 
 const props = defineProps<{
-  monsters: Monster[]
+  monsters: Monster[];
 }>();
 
 function onBeforeEnter(el) {
-  console.log('el: ', el);
-  el.style.opacity = 0
-  el.style.height = 0
+  console.log("el: ", el);
+  el.style.opacity = 0;
+  el.style.height = 0;
 }
 function onEnter(el, done) {
-  console.log('el, done: ', el, done);
+  console.log("el, done: ", el, done);
   gsap.to(el, {
     opacity: 1,
-    height: '1.6em',
+    height: "1.6em",
     delay: el.dataset.index * 0.15,
     onComplete: done
-  })
+  });
 }
 function onLeave(el, done) {
-  console.log('el, done: ', el, done);
+  console.log("el, done: ", el, done);
   gsap.to(el, {
     opacity: 0,
     height: 0,
     delay: el.dataset.index * 0.15,
     onComplete: done
-  })
+  });
 }
 </script>
 
@@ -52,5 +52,4 @@ function onLeave(el, done) {
   </nuxt-link>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
